@@ -1,6 +1,3 @@
-/*
- * MnistReader - Copyright (c) 2016-2018 Marco Hutter - http://www.javagl.de
- */ 
 package deeplearning_test;
 
 import java.io.IOException;
