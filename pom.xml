@@ -61,18 +61,18 @@
         <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
 		<dependency>
     		<groupId>org.jfree</groupId>
-    <artifactId>jfreechart</artifactId>
-    <version>1.5.3</version>
-</dependency>
+    		<artifactId>jfreechart</artifactId>
+    		<version>1.5.3</version>
+		</dependency>
 
-<!-- https://mvnrepository.com/artifact/org.jfree/jcommon -->
-<dependency>
-    <groupId>org.jfree</groupId>
-    <artifactId>jcommon</artifactId>
-    <version>1.0.24</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jfree/jcommon -->
+		<dependency>
+    		<groupId>org.jfree</groupId>
+    		<artifactId>jcommon</artifactId>
+    		<version>1.0.24</version>
+		</dependency>
+		
 
-        
     </dependencies>
 
 
