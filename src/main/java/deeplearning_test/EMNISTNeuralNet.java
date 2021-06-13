@@ -7,28 +7,27 @@ import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 
 import org.nd4j.evaluation.classification.*;
 
-import org.nd4j.linalg.learning.config.Adam; // for different updaters like Adam, Nesterovs, etc.
-import org.nd4j.linalg.activations.Activation; // defines different activation functions like RELU, SOFTMAX, etc.
-import org.nd4j.linalg.lossfunctions.LossFunctions; // mean squared error, multiclass cross entropy, etc.
+import org.nd4j.linalg.learning.config.Adam;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 
 public class EMNISTNeuralNet {
 	
-	public static void main(String[] args) throws Exception {
+	public void createModel() throws Exception {
 		
 		int batchSize = 128; 	// how many examples to simultaneously train in the network
-		EmnistDataSetIterator.Set emnistSet = EmnistDataSetIterator.Set.BALANCED;
+		EmnistDataSetIterator.Set emnistSet = EmnistDataSetIterator.Set.DIGITS;
 		EmnistDataSetIterator emnistTrain = new EmnistDataSetIterator(emnistSet, batchSize, true);
 		EmnistDataSetIterator emnistTest = new EmnistDataSetIterator(emnistSet, batchSize, false);
 	
-		int outputNum = EmnistDataSetIterator.numLabels(emnistSet); // total output classes
+		int outputNum = EmnistDataSetIterator.numLabels(emnistSet); 	// total output classes
 		long rngSeed = 123; 	// integer for reproducibility of a random number generator
 		int numRows = 28; 		// number of "pixel rows" in an MNIST digit
-		int numColumns = 28;
+		int numColumns = 28;	// number of "pixel columns" in an MNIST digit
 
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 				.seed(rngSeed)
@@ -50,28 +49,28 @@ public class EMNISTNeuralNet {
 				.build();
 		
 			
-		// create the MLN
+		// Create the MLN
 		MultiLayerNetwork network = new MultiLayerNetwork(conf);
 		network.init();
 
-		// pass a training listener that reports score every 10 iterations
-		int eachIterations = 10;
-		network.addListeners(new ScoreIterationListener(eachIterations));
+		// Training listener that reports score every 100 iterations
+		int eachIterations = 100;
+		network.addListeners(new CustomScoreIterationListener(eachIterations));
 
-		// or simply use for loop
+		// Loop through creating the each Epoch
 		int numEpochs = 2;
 		for(int i = 0; i < numEpochs; i++) {
 			System.out.print("Epoch " + i + " / " + numEpochs);
 		   network.fit(emnistTrain);
 		}
 		
-		// evaluate basic performance
+		// Evaluate basic performance
 		Evaluation eval = network.evaluate(emnistTest);
 		//System.out.println(eval.accuracy());
 		//System.out.println(eval.precision());
 		//System.out.println(eval.recall());
 
-		// evaluate ROC and calculate the Area Under Curve
+		// Evaluate ROC and calculate the Area Under Curve
 		ROCMultiClass roc = network.evaluateROCMultiClass(emnistTest, 0);
 		//System.out.println(roc.calculateAverageAUC());
 
@@ -80,7 +79,7 @@ public class EMNISTNeuralNet {
         //System.out.println(roc.calculateAUC(classIndex));
 
 
-		// optionally, you can print all stats from the evaluations
+		// Statistics from the evaluations
 		System.out.print(eval.stats());
 		System.out.print(roc.stats());
 	}

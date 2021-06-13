@@ -58,20 +58,26 @@
             <version>${logback.version}</version>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
 		<dependency>
-    		<groupId>org.jfree</groupId>
-    		<artifactId>jfreechart</artifactId>
-    		<version>1.5.3</version>
+    		<groupId>org.openjfx</groupId>
+    		<artifactId>javafx-fxml</artifactId>
+    		<version>16</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jfree/jcommon -->
+  	
+  		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-media -->
 		<dependency>
-    		<groupId>org.jfree</groupId>
-    		<artifactId>jcommon</artifactId>
-    		<version>1.0.24</version>
+    		<groupId>org.openjfx</groupId>
+    		<artifactId>javafx-media</artifactId>
+   			<version>16</version>
 		</dependency>
-		
+  	
+  		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+		<dependency>
+    		<groupId>org.openjfx</groupId>
+    		<artifactId>javafx-controls</artifactId>
+    		<version>16</version>
+		</dependency>
 
     </dependencies>
 

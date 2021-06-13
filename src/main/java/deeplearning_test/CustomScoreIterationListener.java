@@ -24,7 +24,7 @@ public class CustomScoreIterationListener extends BaseTrainingListener implement
             printIterations = 1;
         if (iteration % printIterations == 0) {
             double score = model.score();
-            System.out.println("Score at iteration " + iteration + " is " + (Math.round(score * 100.0) / 100.0));
+            System.out.println("Score at iteration " + iteration + " is " + (Math.round(score * 1000.0) / 1000.0));
         }
     }
 
