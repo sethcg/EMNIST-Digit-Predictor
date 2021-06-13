@@ -61,9 +61,9 @@ public class Cell extends StackPane{
     private void changeColorHelper(MouseEvent event){
     	Cell cell = (Cell) event.getSource();
     	if( event.isPrimaryButtonDown()) {				// Left Mouse Button color the square
-    		cell.setStyle("-fx-background-color: derive(black, 0.9);");
+    		cell.setStyle("-fx-background-color: #4c4c4c;");
     	}else if( event.isSecondaryButtonDown()) {		// Right Mouse Button erase the square
-    		cell.setStyle("-fx-background-color: transparent");
+    		cell.setStyle("-fx-background-color: #efefef;");
     	}
     }
     

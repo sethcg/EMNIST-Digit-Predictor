@@ -27,7 +27,8 @@ public class App extends Application {
     	
     	// Add Grid to Screen
     	GridHelper grid = new GridHelper(root, numRows, numColumns);
-    	root.setCenter(grid.gridCenter());
+    	root.setCenter(grid.addCenter());
+    	root.setBottom(grid.addBottom());
 
     	// Finish Setup of JavaFX GUI
         scene.setUserAgentStylesheet(new File("./styles.css").toURI().toString());
