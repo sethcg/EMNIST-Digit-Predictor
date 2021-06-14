@@ -41,7 +41,7 @@ public class App extends Application {
     	// Finish Setup of JavaFX GUI
         scene.setUserAgentStylesheet(new File("./styles.css").toURI().toString());
         stage.setScene(scene);
-        stage.setTitle("MP3 Audio Player");
+        stage.setTitle("Digit Predictor");
         stage.show();
 
     }
