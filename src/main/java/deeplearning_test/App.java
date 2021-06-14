@@ -1,6 +1,7 @@
 package deeplearning_test;
 
 import java.io.File;
+import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -10,11 +11,18 @@ import javafx.stage.Stage;
 public class App extends Application {
 
 	// Initial Variables
-    int numRows = 28;
-    int numColumns = 28;
+    int numRows = 20;
+    int numColumns = 20;
     int initialWidth = 800;
     int initialHeight = 600;
 
+    
+    @Override
+    public void init() throws IOException{
+    	// Load the Model (Takes a couple seconds)
+    	EMNISTNeuralNet.loadModel();
+    }
+    
     @Override
     public void start(Stage stage) {
     	

@@ -1,5 +1,8 @@
 package deeplearning_test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -15,10 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class GridHelper {
-	
+
 	BorderPane root;
 	int numRows;
 	int numColumns;
+	ArrayList<Cell> cells = new ArrayList<Cell>();
 	
 	ObjectProperty<Double> windowWidth = new SimpleObjectProperty<Double>(this, "windowWidth", null);
 	ObjectProperty<Double> windowHeight = new SimpleObjectProperty<Double>(this, "windowHeight", null);
@@ -67,6 +71,8 @@ public class GridHelper {
     			cell.prefWidthProperty().bind(cellWidth);
     			cell.prefHeightProperty().bind(cellHeight);
     			grid.add(cell, row, col);
+    			cell.setColor(false);
+    			cells.add(cell);
     		}
     	}
     	return grid;
@@ -111,6 +117,17 @@ public class GridHelper {
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("PREDICT BUTTON PRESSED");
+				
+				// Create the tempImage for the prediction
+				EMNISTNeuralNet.createData(createGridArray());
+				try {
+					ArrayList<Double> predictions = EMNISTNeuralNet.getPredictions();
+					for(int index = 0; index < 10; index++){
+			        	System.out.println(index + ": " + predictions.get(index) + "%");
+			        }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		hboxRight.getChildren().add(predictButton);
@@ -120,6 +137,19 @@ public class GridHelper {
 		grid.add(hboxRight, 1, 0);
 
     	return grid;
+	}
+	
+	private int[][] createGridArray(){
+		// Create 20x20 2D Array
+		int[][] gridArray = new int[numRows][numColumns];
+		for(Cell cell : cells){
+			if(cell.isColored()){
+				gridArray[cell.row][cell.column] = 1;
+			}else{
+				gridArray[cell.row][cell.column] = 0;
+			}
+		}
+		return gridArray;
 	}
 	
 }
