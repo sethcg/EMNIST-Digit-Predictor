@@ -1,24 +1,39 @@
 .root {
 	-fx-outline: #090909;
 	-fx-text: #FFFFFF;
-	-fx-button: #282828;
-
+	-fx-divider: #141414;
+	-fx-grid-outline: #454545;
+	-fx-cell-white: #efefef;
+	-fx-cell-black: #171717;
 
   	/* Default Values */
   	-fx-font-family: monospace;
 }
-
-.cell {
-    -fx-border-color: #090909;
+.label{
+    -fx-text-fill: -fx-text;
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+.progress-bar{
+	-fx-pref-width: 100000000000000000;
+}
+.progress-bar .bar {
+	-fx-background-color: derive(green,0.9);
+	-fx-background-radius: 3;
+	-fx-background-insets: 0, 1, 2, 1;
+	-fx-effect: dropshadow(gaussian, derive(green,0.9), 5, 0.2, 0.0, 0.0);
+    -fx-padding: 8, 0, 8, 0;
+}
+.cell{
+    -fx-border-color: -fx-outline;
     -fx-border-width: 1px;
 }
 #cell{
-    -fx-background-color: #efefef;
+    -fx-background-color: -fx-cell-white;
 }
 #cell-hover-highlight{
     -fx-background-color:derive(green,0.9);
 }
-
 #Button{
 	-fx-text-fill: -fx-text;
 

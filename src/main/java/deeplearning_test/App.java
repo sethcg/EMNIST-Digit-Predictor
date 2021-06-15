@@ -11,22 +11,22 @@ import javafx.stage.Stage;
 public class App extends Application {
 
 	// Initial Variables
-    int numRows = 20;
-    int numColumns = 20;
-    int initialWidth = 800;
-    int initialHeight = 600;
+    private int gridSize = 10;			// 10 x 10 GridSize
+    private int initialWidth = 400;
+    private int initialHeight = 600;
 
     
     @Override
     public void init() throws IOException{
     	// Load the Model (Takes a couple seconds)
-    	EMNISTNeuralNet.loadModel();
+    	PredictionHelper.loadModel();
     }
     
     @Override
     public void start(Stage stage) {
     	
     	BorderPane root = new BorderPane();
+    	root.setStyle("-fx-background-color: -fx-grid-outline;");
     	
     	// Create Scene and Stage
         Scene scene = new Scene(root, initialWidth, initialHeight);
@@ -34,7 +34,7 @@ public class App extends Application {
     	root.prefWidthProperty().bind(scene.widthProperty());
     	
     	// Add Grid to Screen
-    	GridHelper grid = new GridHelper(root, numRows, numColumns);
+    	GridHelper grid = new GridHelper(root, gridSize);
     	root.setCenter(grid.addCenter());
     	root.setBottom(grid.addBottom());
 
