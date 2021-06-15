@@ -26,5 +26,6 @@ This is an application that displays a 10x10 grid that users can draw on. A pred
 - ~~Update predictions in close to realtime~~
 - ~~Optimize Model if possible~~
 
+## Quote:
 Aristotle said:
 > For the things we have to learn before we can do them, we learn by doing them..
