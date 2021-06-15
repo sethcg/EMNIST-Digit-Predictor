@@ -1,4 +1,4 @@
-package deeplearning_test;
+package emnist_digit_predictor;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

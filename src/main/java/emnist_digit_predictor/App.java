@@ -1,4 +1,4 @@
-package deeplearning_test;
+package emnist_digit_predictor;
 
 import java.io.File;
 import java.io.IOException;

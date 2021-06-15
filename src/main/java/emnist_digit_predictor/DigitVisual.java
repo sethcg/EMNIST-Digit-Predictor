@@ -1,4 +1,4 @@
-package deeplearning_test;
+package emnist_digit_predictor;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
