@@ -1,21 +1,25 @@
 # EMNIST-Digit-Predictor
 
 ## Description:
-This is an application that displays a grid that can be drawn on for users to test the trained DL4J model. The prediction is the best guess from 0 - 100% on which number or numbers that given drawing might be, it is currently working best when drawn as big as possible.
+This is an application that displays a 10x10 grid that users can draw on. A prediction is made as the user draws on what number they are drawing. The Model is made using DL4J and trained with EMNIST Digits dataset.
 
 ----
 
 ## Features
 - Java, JavaFX
 - Machine Learning Model using DL4J
-- 
+- Responsive GUI
+- Reset and Save Buttons
 
 ----
-## Application:
+## Demo:
+
+----
+## Examples:
 
 ----
 ## To Do:
 - ~~Working Predictions~~
-- Implement display of predictions, not just console.
-- Update predictions in close to realtime
-- Optimize Model if possible
+- ~~Implement display of predictions, not just console.~~
+- ~~Update predictions in close to realtime~~
+- ~~Optimize Model if possible~~
