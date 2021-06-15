@@ -18,7 +18,7 @@ public class App extends Application {
     
     @Override
     public void init() throws IOException{
-    	// Load the Model (Takes a couple seconds)
+    	// Load the Model (Takes a couple seconds).
     	PredictionHelper.loadModel();
     }
     
