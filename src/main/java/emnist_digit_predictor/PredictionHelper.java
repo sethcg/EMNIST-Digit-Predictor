@@ -14,7 +14,7 @@ public class PredictionHelper {
 	
 	private static MultiLayerNetwork network;
 	
-	// Called when application is run to load model located in ./Model
+	// Called to load model located in ./Model
 	protected static void loadModel() throws IOException{
 		network = MultiLayerNetwork.load(new File("./Model.zip"), true);
 	}
