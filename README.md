@@ -18,7 +18,7 @@ This is an application that displays a 10x10 grid that users can draw on. A pred
 
 ----
 ## Examples:
-<img src="https://user-images.githubusercontent.com/8952745/121995893-b23ad580-cd75-11eb-82c2-f4d6cf5011b4.png" width="300" height="300"> <img src="https://user-images.githubusercontent.com/8952745/121995897-b2d36c00-cd75-11eb-97bc-8ca0ec737f73.png" width="300" height="300"> <img src="https://user-images.githubusercontent.com/8952745/121995906-b5ce5c80-cd75-11eb-9d39-aa7e69ae5c7d.png" width="300" height="300">
+<img src="https://user-images.githubusercontent.com/8952745/121995893-b23ad580-cd75-11eb-82c2-f4d6cf5011b4.png" width="200" height="250"> <img src="https://user-images.githubusercontent.com/8952745/121995897-b2d36c00-cd75-11eb-97bc-8ca0ec737f73.png" width="200" height="250"> <img src="https://user-images.githubusercontent.com/8952745/121995906-b5ce5c80-cd75-11eb-9d39-aa7e69ae5c7d.png" width="200" height="250">
 ----
 ## To Do:
 - ~~Working Predictions~~
