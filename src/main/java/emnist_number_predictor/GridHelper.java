@@ -1,4 +1,4 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -216,11 +216,11 @@ public class GridHelper{
 	
 	// Save the Grid as a PNG file
 	private static void saveImage(BufferedImage image){
-		String path = "./tempImage.png";
-		File ImageFile = new File(path);
-		try{
+		String imgPath = App.class.getResource("/").getPath() + "screenshot.png";
+        File ImageFile = new File(imgPath);
+		try {
 			ImageIO.write(image, "png", ImageFile);
-		}catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

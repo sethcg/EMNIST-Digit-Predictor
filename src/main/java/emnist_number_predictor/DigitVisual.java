@@ -1,4 +1,4 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

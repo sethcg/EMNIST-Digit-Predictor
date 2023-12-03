@@ -1,7 +1,8 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,13 +12,12 @@ import javafx.stage.Stage;
 public class App extends Application {
 
 	// Initial Variables
-    private int gridSize = 10;			// 10 x 10 GridSize
+    private int gridSize = 10;  // 10 x 10 GridSize
     private int initialWidth = 400;
     private int initialHeight = 600;
-
     
     @Override
-    public void init() throws IOException{
+    public void init() throws IOException, URISyntaxException{
     	// Load the Model (Takes a couple seconds).
     	PredictionHelper.loadModel();
     }
@@ -39,15 +39,15 @@ public class App extends Application {
     	root.setBottom(grid.addBottom());
 
     	// Finish Setup of JavaFX GUI
-        scene.setUserAgentStylesheet(new File("./styles.css").toURI().toString());
+		File cssFile = new File(App.class.getClassLoader().getResource("styles.css").getFile());
+        scene.setUserAgentStylesheet(cssFile.toURI().toString());
         stage.setScene(scene);
         stage.setTitle("Digit Predictor");
         stage.show();
 
     }
-
-    
-    // Code Needed to Launch in Eclipse IDE
+ 
+    // Code Needed to Launch
     public static void main(String[] args) {
         launch(args);
     }

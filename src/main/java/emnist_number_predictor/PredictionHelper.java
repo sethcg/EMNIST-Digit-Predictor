@@ -1,7 +1,8 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import org.datavec.image.loader.NativeImageLoader;
@@ -15,8 +16,11 @@ public class PredictionHelper {
 	private static MultiLayerNetwork network;
 	
 	// Called to load model located in ./Model
-	protected static void loadModel() throws IOException{
-		network = MultiLayerNetwork.load(new File("./Model.zip"), true);
+	protected static void loadModel() throws IOException, URISyntaxException{
+		File file = new File(App.class.getClassLoader().getResource("Model.zip").getFile());
+		network = MultiLayerNetwork.load(file, true);
+
+		//network = MultiLayerNetwork.load(new File("../resources/Model.zip"), true);
 	}
 
 	// Method to get predictions of the tempImage

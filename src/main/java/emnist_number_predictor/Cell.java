@@ -1,4 +1,4 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

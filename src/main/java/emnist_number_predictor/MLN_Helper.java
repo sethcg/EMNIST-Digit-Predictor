@@ -1,7 +1,8 @@
-package emnist_digit_predictor;
+package emnist_number_predictor;
 
 import java.io.File;
 
+import org.eclipse.deeplearning4j.resources.utils.EMnistSet;
 import org.deeplearning4j.datasets.iterator.impl.EmnistDataSetIterator;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -23,11 +24,10 @@ public class MLN_Helper{
 	//	createModel();
 	//}
 
-	
 	public static void createModel() throws Exception {
 		
 		int batchSize = 128;
-		EmnistDataSetIterator.Set emnistSet = EmnistDataSetIterator.Set.DIGITS;
+		EMnistSet emnistSet = EMnistSet.DIGITS;
 		EmnistDataSetIterator emnistTrain = new EmnistDataSetIterator(emnistSet, batchSize, true);
 		EmnistDataSetIterator emnistTest = new EmnistDataSetIterator(emnistSet, batchSize, false);
 	
@@ -43,7 +43,7 @@ public class MLN_Helper{
 				.list()
 				.layer(new DenseLayer.Builder()
 						.nIn(numRows * numColumns) 		// Number of input data points.
-						.nOut(1000) 					// Number of output data points.
+						.nOut(1000) 				// Number of output data points.
 						.activation(Activation.RELU) 	// Activation function.
 						.weightInit(WeightInit.XAVIER) 	// Weight initialization.
 						.build())
@@ -78,7 +78,7 @@ public class MLN_Helper{
 		System.out.print(roc.stats());
 		
 		// Save the Model to a File
-		network.save(new File("./Model.zip"));
+		network.save(new File("../resources/Model.zip"));
 	}
 	
 }

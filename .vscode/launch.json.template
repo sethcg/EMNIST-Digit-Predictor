@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "emnist_number_predictor.App",
+            "projectName": "emnist-number-predictor",
+            // Replace MODULE_PATH with your own path to the javafx lib folder containing the jar files.
+            // Example Path: 'C:/Users/Example/Downloads/javafx-sdk-21.0.1/lib/'
+            "vmArgs": "--module-path 'MODULE_PATH' --add-modules javafx.controls"
+        }
+    ]
+}

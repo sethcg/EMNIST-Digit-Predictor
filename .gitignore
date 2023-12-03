@@ -1,49 +1,30 @@
-.metadata
-/target/
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
+# vscode launch.json and settings.json
+launch.json
+settings.json
 
-*.png
+# Target Folder
+target/
 
-# External tool builders
-.externalToolBuilders/
+# Compiled class file
+*.class
 
-# Locally stored "Eclipse launch configurations"
-*.launch
+# Log file
+*.log
 
-# Java annotation processor (APT)
-.factorypath
+# BlueJ files
+*.ctxt
 
-# PDT-specific (PHP Development Tools)
-.buildpath
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-# sbteclipse plugin
-.target
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.tar.gz
+*.rar
 
-# Code Recommenders
-.recommenders/
-
-# Annotation Processing
-.apt_generated/
-.apt_generated_test/
-
-# Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
-
-# Uncomment this line if you wish to ignore the project description file.
-# Typically, this file would be tracked if it contains build/dependency configurations:
-.project
-
-.classpath
-
-#*.gz
+# Excluding the EMNIST Model .zip file
+*.zip
+!Model.zip
