@@ -18,8 +18,41 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
-            <version>1.0.0-M2</version>
+            <version>1.0.0-M2.1</version>
             <exclusions>
+                <!-- exclusion for vulnerabilities/conflicts -->
+                <exclusion>
+                    <artifactId>gson</artifactId>
+                    <groupId>com.google.code.gson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>imageio-bmp</artifactId>
+                    <groupId>com.twelvemonkeys.imageio</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>imageio-psd</artifactId>
+                    <groupId>com.twelvemonkeys.imageio</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>imageio-tiff</artifactId>
+                    <groupId>com.twelvemonkeys.imageio</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>imageio-jpeg</artifactId>
+                    <groupId>com.twelvemonkeys.imageio</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-net</artifactId>
+                    <groupId>commons-net</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>freemarker</artifactId>
+                    <groupId>org.freemarker</groupId>
+                </exclusion>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
@@ -28,17 +61,13 @@
                     <artifactId>stream</artifactId>
                     <groupId>com.clearspring.analytics</groupId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>deeplearning4j-modelimport</artifactId>
-                    <groupId>org.deeplearning4j</groupId>
-                </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-native</artifactId>
-            <version>1.0.0-M2</version>
+            <version>1.0.0-M2.1</version>
         </dependency>
 
         <dependency>
