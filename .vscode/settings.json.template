@@ -1,0 +1,7 @@
+// To use these settings in VSCode just remove the .template
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive",
+
+    "css.lint.vendorPrefix": "ignore"
+}

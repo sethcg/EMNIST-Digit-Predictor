@@ -1,3 +1,4 @@
+/* Root Values */
 .root {
 	-fx-outline: #090909;
 	-fx-text: #FFFFFF;
@@ -8,15 +9,22 @@
 
   	/* Default Values */
   	-fx-font-family: monospace;
+	-fx-background-color: -fx-grid-outline;
 }
-.label{
+
+/* PredictionGrid CSS */
+.prediction-grid-default {
+	-fx-background-color: -fx-divider;
+}
+
+/* Label CSS */
+.label-default{
     -fx-text-fill: -fx-text;
 	-fx-font-weight: bold;
 	-fx-font-size: 20px;
 }
-.progress-bar{
-	-fx-pref-width: 100000000000000000;
-}
+
+/* Percentage ProgressBar CSS */
 .progress-bar .bar {
 	-fx-background-color: derive(green,0.9);
 	-fx-background-radius: 3;
@@ -24,17 +32,23 @@
 	-fx-effect: dropshadow(gaussian, derive(green,0.9), 5, 0.2, 0.0, 0.0);
     -fx-padding: 8, 0, 8, 0;
 }
-.cell{
-    -fx-border-color: -fx-outline;
+
+/* Input Cell CSS */
+.input-cell-default {
+    -fx-background-color: -fx-cell-white;
     -fx-border-width: 1px;
 }
-#cell{
-    -fx-background-color: -fx-cell-white;
-}
-#cell-hover-highlight{
+
+.input-cell-default:hover {
     -fx-background-color:derive(green,0.9);
 }
-#Button{
+
+#input-cell-selected {
+    -fx-background-color: -fx-cell-white;
+}
+
+/* Button CSS */
+.control-button-default {
 	-fx-text-fill: -fx-text;
 
 	-fx-padding: 5 10 5 10;
@@ -47,7 +61,7 @@
 	-fx-background-radius: 4;
 }
 
-#Button:hover{
+.control-button-default:hover {
 	-fx-background-color: #941c20;
 	-fx-effect: dropshadow(gaussian, #941c20, 8, 0.5, 0.0, 0.0);
 }
