@@ -1,6 +1,7 @@
 package emnist_number_predictor.model;
 import static emnist_number_predictor.util.Const.*;
 
+import emnist_number_predictor.model.ConfigurationProgress.PROGRESS;
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
@@ -23,12 +24,9 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 public class Model {
 
 	private MultiLayerNetwork network;
+	private ConfigurationProgress progress = new ConfigurationProgress();
 
-	private static final int EPOCH_NUM = 1;
-    private static final int BATCH_SIZE = 128;
-	private static final EMnistSet EMNIST_SET = EMnistSet.DIGITS;
 	private static final long RNG_SEED = 123;
-
 	private static final int EMNIST_IMAGE_WIDTH = 28;
 	private static final int EMNIST_IMAGE_HEIGHT = 28;
 	private static final int LAYER_ONE_INPUT = EMNIST_IMAGE_WIDTH * EMNIST_IMAGE_HEIGHT;
@@ -37,11 +35,13 @@ public class Model {
 	// Final output of EMNIST labels digits [0-9]
 	private static final int EMNIST_DIGIT_OUTPUT = 10;
 
+	private static final int BATCH_SIZE = 128;
+	private static final EMnistSet EMNIST_SET = EMnistSet.DIGITS;
 	private EmnistDataSetIterator trainingIterator, testingIterator;
-	
-	public Model(boolean evaluate) {
+
+	public Model() {
 		this.network = new MultiLayerNetwork(this.getConfiguration());
-		this.initializeModel(evaluate);
+		this.initializeModel();
 	}
 
 	public INDArray getPrediction(INDArray predictionInput) {
@@ -50,7 +50,7 @@ public class Model {
 
 	private MultiLayerConfiguration getConfiguration() {
 		log.info("Configuring Neural Network Model");
-		return new NeuralNetConfiguration.Builder()
+		MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
 				.seed(RNG_SEED)
 				.updater(new Adam())
 				.l2(1e-4)
@@ -68,23 +68,26 @@ public class Model {
 						.weightInit(WeightInit.XAVIER)
 						.build())
 				.build();
+		progress.incrementProgress(PROGRESS.CONFIGURATION);
+		return configuration;
 	}
 
-	private void initializeModel(boolean evaluate) {
+	private void initializeModel() {
 		log.info("Initializing Neural Network Model");
 		try {
 			this.trainingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, true);
 			this.testingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, false);
+			progress.incrementProgress(PROGRESS.CONFIGURATION);
 
 			File file = new File(MODEL_PATH);
 			if(file.createNewFile() || DEBUG_REBUILD_MODEL_OPTION) {
 				this.trainModel();
-				if(evaluate) {
-					this.evaluateModel();
-				}
+				this.evaluateModel();
 				this.saveModel();
 			}
+			progress.incrementProgress(PROGRESS.CONFIGURATION);
 			this.loadModel();
+			progress.incrementProgress(PROGRESS.CONFIGURATION);
 		} catch (Exception exception) {
 			log.error("Error during the initialization process.");
 		}
@@ -94,7 +97,6 @@ public class Model {
 		log.info("Saving the model");
 		try {
 			File modelFile = new File(MODEL_PATH);
-			// App.network.save(model, false);
 			ModelSerializer.writeModel(network, modelFile, false);
 		} catch (Exception exception) {
 			log.error("Error saving %s to Path: %s", MODEL_FILE_NAME, MODEL_PATH);
@@ -106,7 +108,6 @@ public class Model {
 		log.info("Loading the model");
 		File modelFile = new File(MODEL_PATH);
 		try {
-			// App.network.load(file, false);
 			network = ModelSerializer.restoreMultiLayerNetwork(modelFile);
 			System.out.println(network);
 		} catch (IOException exception) {
@@ -119,9 +120,7 @@ public class Model {
 		log.info("Training the model through %s epochs.", EPOCH_NUM);
 		for(int i = 1; i < EPOCH_NUM + 1; i++) {
 			network.fit(trainingIterator);
-			// Set the percent to the normalized percentage, a double ranging from [0-1].
-			// double normalizedPercent = (EPOCH_NUM / i);
-			// percent.setValue(normalizedPercent);
+			progress.incrementProgress(PROGRESS.TRAINING);
 		}
 	}
 
@@ -143,9 +142,11 @@ public class Model {
 		log.info("Evaluating the model's performance.");
 		// Evaluate basic performance
 		String basicEvaluation = network.evaluate(testingIterator).stats();
+		progress.incrementProgress(PROGRESS.EVALUATION);
 
 		// Evaluate ROC and calculate the area under curve
 		String rocEvaluation = network.evaluateROCMultiClass(testingIterator, 0).stats();
+		progress.incrementProgress(PROGRESS.EVALUATION);
 
 		try {
 			File file = new File(EVALUATION_PATH);

@@ -19,8 +19,8 @@ import javafx.scene.paint.Color;
 public class App extends Application {
 
     private static BorderPane root = new BorderPane();
-    private LoadingScreen loadingScreen = new LoadingScreen();
-
+    
+    public static LoadingScreen loadingScreen = new LoadingScreen();
     public static Window window = new Window(root);
     public static AppController controller = new AppController();
 
@@ -61,9 +61,7 @@ public class App extends Application {
     private void showLoadingScreen(Window window, Task<?> task) {
         task.stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
-                loadingScreen.loadProgress.progressProperty().unbind();
-                loadingScreen.loadProgress.setProgress(1);
-                window.toFront();
+                // window.toFront();
 
                 FadeTransition loadingTransition = new FadeTransition(Duration.seconds(1.0), new LoadingScreen());
                 loadingTransition.setFromValue(1.0);

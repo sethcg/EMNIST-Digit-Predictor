@@ -15,6 +15,9 @@ public class Window extends Stage {
 
     public Window(Pane root) {
         root.getStyleClass().add(WINDOW_DEFAULT_STYLE);
+        
+        this.setMinWidth(INIT_WINDOW_WIDTH);
+        this.setMinHeight(INIT_WINDOW_HEIGHT);
 
         width.bind(root.widthProperty().asObject());
         height.bind(root.heightProperty().asObject());

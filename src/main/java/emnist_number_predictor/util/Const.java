@@ -2,8 +2,12 @@ package emnist_number_predictor.util;
 
 public final class Const {
 
-    // Set this to true to force the Neural Network Model to be rebuilt.
+    // Set this to true to force the Neural Network Model to be rebuilt on launch,
+    // This can take a long time depending on the EPOCH_NUM.
     public static final boolean DEBUG_REBUILD_MODEL_OPTION = false;
+
+    // Model configuration settings
+    public static final int EPOCH_NUM = 1;
 
     // Window size
     public static final Double INIT_WINDOW_WIDTH = 400.0;

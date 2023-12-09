@@ -1,4 +1,4 @@
-package emnist_number_predictor.util;
+package emnist_number_predictor.components.util;
 
 import javafx.geometry.VPos;
 import javafx.scene.layout.Priority;

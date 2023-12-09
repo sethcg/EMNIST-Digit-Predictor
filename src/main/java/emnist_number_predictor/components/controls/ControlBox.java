@@ -1,7 +1,7 @@
 package emnist_number_predictor.components.controls;
 
 import emnist_number_predictor.components.controls.ControlButton.FUNCTION;
-import emnist_number_predictor.util.Spacer;
+import emnist_number_predictor.components.util.Spacer;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 

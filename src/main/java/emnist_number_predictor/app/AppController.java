@@ -6,7 +6,6 @@ import emnist_number_predictor.components.input.InputCell;
 import emnist_number_predictor.components.input.InputGrid;
 import emnist_number_predictor.components.prediction.PredictionGrid;
 import emnist_number_predictor.model.Model;
-import emnist_number_predictor.util.Const;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +30,7 @@ public class AppController {
 	// Expensive method, loads or creates the Neural Network Model.
 	// Both take time, and this is called within scope of the loading screen.
 	public void initializeModel() {
-		this.model = new Model(Const.ENABLE_EVALUATION);
+		this.model = new Model();
 	}
 
 	private INDArray getPrediction() {
@@ -99,9 +98,9 @@ public class AppController {
         screenshot.setRGB(0, 0, UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, integerRGBArray, 0, UPSCALED_GRID_SIZE);
 
 		try {
-			ImageIO.write(screenshot, "png", new File(Const.SCREENSHOT_PATH));
+			ImageIO.write(screenshot, "png", new File(SCREENSHOT_PATH));
 		} catch (IOException e) {
-			log.error("Error saving %s to ", Const.SCREENSHOT_FILE_NAME, Const.SCREENSHOT_PATH);
+			log.error("Error saving %s to ", SCREENSHOT_FILE_NAME, SCREENSHOT_PATH);
 		}
     }
 

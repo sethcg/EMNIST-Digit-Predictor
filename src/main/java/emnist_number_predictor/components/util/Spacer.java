@@ -1,4 +1,4 @@
-package emnist_number_predictor.util;
+package emnist_number_predictor.components.util;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
