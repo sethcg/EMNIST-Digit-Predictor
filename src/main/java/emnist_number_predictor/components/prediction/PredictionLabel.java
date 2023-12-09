@@ -1,4 +1,4 @@
-package emnist_number_predictor.helpers;
+package emnist_number_predictor.components.prediction;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

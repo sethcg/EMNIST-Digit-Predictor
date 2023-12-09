@@ -1,6 +1,5 @@
-package emnist_number_predictor.components;
+package emnist_number_predictor.components.prediction;
 
-import emnist_number_predictor.helpers.PredictionLabel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;

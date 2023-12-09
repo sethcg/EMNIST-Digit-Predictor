@@ -1,6 +1,7 @@
-package emnist_number_predictor.components;
+package emnist_number_predictor.components.input;
+import static emnist_number_predictor.util.Const.*;
 
-import emnist_number_predictor.service.AppService;
+import emnist_number_predictor.app.App;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -12,57 +13,58 @@ import javafx.beans.value.ObservableValue;
 public class InputCell extends StackPane {
 
 	public int row, column, colorValue;
+
 	private static final String INPUT_CELL_DEFAULT_STYLE = "input-cell-default";
 
-	private ObjectProperty<Double> windowWidth = new SimpleObjectProperty<Double>(this, "windowWidth", null);
-	private ObjectProperty<Double> windowHeight = new SimpleObjectProperty<Double>(this, "windowHeight", null);
-	private ObjectProperty<Double> cellWidth = new SimpleObjectProperty<Double>(this, "cellWidth", null);
-	private ObjectProperty<Double> cellHeight = new SimpleObjectProperty<Double>(this, "cellHeight", null);
+	private ObjectProperty<Double> cellWidth = new SimpleObjectProperty<Double>(this, "cell-width", INIT_CELL_WIDTH);
+	private ObjectProperty<Double> cellHeight = new SimpleObjectProperty<Double>(this, "cell-height", INIT_CELL_HEIGHT);
 
-    public InputCell(AppService app, int row, int column) {
+    public InputCell(int row, int column) {
 		this.getStyleClass().add(INPUT_CELL_DEFAULT_STYLE);
-		
 		this.row = row;
 		this.column = column;
-
-		// Bind window size variables locally. 
-		windowWidth.bind(app.windowWidth);
-		windowHeight.bind(app.windowHeight);
 
 		// Initialize cell size. 
 		this.prefWidthProperty().bind(cellWidth);
 		this.prefHeightProperty().bind(cellHeight);
-		cellWidth.setValue(windowWidth.get() / InputGrid.GRID_SIZE);
-		cellHeight.setValue(windowHeight.get() / InputGrid.GRID_SIZE);
 
 		// Adjust cell size, when the Appliction window width or height changes.
-		app.windowWidth.addListener(new ChangeListener<Double>(){
+		App.window.width.addListener(new ChangeListener<Double>(){
 			@Override
 			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-				cellWidth.setValue(windowWidth.get() / InputGrid.GRID_SIZE);
+				cellWidth.setValue(App.window.width.get() / GRID_SIZE);
 			}
 		});
-		app.windowHeight.addListener(new ChangeListener<Double>(){
+		App.window.height.addListener(new ChangeListener<Double>(){
 			@Override
 			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-				cellWidth.setValue(windowHeight.get() / InputGrid.GRID_SIZE);
+				cellWidth.setValue(App.window.height.get() / GRID_SIZE);
 			}
 		});
 
-     	// Select or Deselect cell on MousePress
+     	// Select or deselect cell on MousePress
      	this.setOnMousePressed(new EventHandler<MouseEvent>(){
      		@Override
-     		public void handle(MouseEvent event) { updateColor(event); }
+     		public void handle(MouseEvent event) { 
+				updateColor(event);
+				event.consume();
+			}
      	});
      	
-     	// Select or Deselect cells on MouseDrag
+     	// Select or deselect cells on MouseDrag
         this.setOnDragDetected(new EventHandler<MouseEvent>(){
      		@Override
-     		public void handle(MouseEvent event) { ((InputCell) event.getSource()).startFullDrag(); }
+     		public void handle(MouseEvent event) { 
+				((InputCell) event.getSource()).startFullDrag(); 
+				event.consume();
+			}
      	});
      	this.setOnMouseDragEntered(new EventHandler<MouseEvent>(){
      		@Override
-     		public void handle(MouseEvent event) { updateColor(event); }
+     		public void handle(MouseEvent event) { 
+				updateColor(event);
+				event.consume();
+			}
      	});
     }
 
@@ -77,7 +79,7 @@ public class InputCell extends StackPane {
 			inputCell.setStyle("-fx-background-color: -fx-cell-white;");
 			inputCell.colorValue = 0;
     	}
-		AppService.predictionService.updatePrediction(inputCell);
+		App.controller.updatePrediction(inputCell);
     }
 
 }
