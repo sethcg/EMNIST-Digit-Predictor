@@ -1,7 +1,7 @@
 # EMNIST Number Predictor
 
 ## Description:
-This is an application that displays a 10x10 grid which the user can draw on. As the user draws a prediction is made for which number is being displayed. 
+This is an application that displays a 14x14 grid which the user can draw on. As the user draws a prediction is made for which number is being displayed. 
 
 The model used to make the predictions is made using DL4J and trained with the EMNIST digits dataset.
 
@@ -10,9 +10,9 @@ See: https://www.nist.gov/itl/products-and-services/emnist-dataset
 ----
 
 ## Features
-- Java, JavaFX
-- Machine Learning Model using DL4J
-- Responsive GUI
+- Java, JavaFX, Maven
+- Neural Network Model using DL4J
+- Custom, Responsive GUI
 - Reset and Save Buttons
 
 ----
@@ -26,9 +26,12 @@ See: https://www.nist.gov/itl/products-and-services/emnist-dataset
 ----
 ## To Do:
 - ~~Basic GUI and Functionality.~~
-- ~~Real-time predictions.~~
-- Improve Model, or add easier way to update Model.
-- Implement a software design pattern.
+- ~~Real-time prediction~~
+- ~~Load Model.zip on start, and build one if the file is not found~~
+- Improve overall look and feel of the application
+- Improve loading splash screen
+- Containerize the application
+- ~~Refactor~~, Refactor, Refactor...
 
 ---
-> For the things we have to learn before we can do them, we learn by doing them..
+> For the things we have to learn before we can do them, we learn by doing them.
