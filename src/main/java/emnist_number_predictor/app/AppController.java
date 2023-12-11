@@ -5,8 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import emnist_number_predictor.components.input.InputCell;
 import emnist_number_predictor.components.input.InputGrid;
 import emnist_number_predictor.components.prediction.PredictionGrid;
-import emnist_number_predictor.model.Model;
-
+import emnist_number_predictor.service.ModelService;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,16 +19,11 @@ import org.nd4j.linalg.factory.Nd4j;
 @Slf4j
 public class AppController {
 
-	private Model model;
 	public InputGrid inputGrid = new InputGrid();
 	public PredictionGrid predictionGrid = new PredictionGrid();
 
 	private BufferedImage screenshot = new BufferedImage(UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, BufferedImage.TYPE_INT_RGB);
 	private float[] floatRGBArray = new float[UPSCALED_ARRAY_SIZE];
-
-	public void initializeModel(Model model) {
-		this.model = model;
-	}
 
 	private INDArray getPrediction() {
 		INDArray predictionInput = Nd4j.create(floatRGBArray, new int[]{1, 784});
@@ -39,7 +33,7 @@ public class AppController {
 		scalar.transform(predictionInput);
 
 		// Get prediction from Neural Network Model
-		return model.getPrediction(predictionInput);
+		return ModelService.getPrediction(predictionInput);
 	}
 
 	private void updatePredictionGrid() {

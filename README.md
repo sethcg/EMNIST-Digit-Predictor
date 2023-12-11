@@ -26,11 +26,12 @@ See: https://www.nist.gov/itl/products-and-services/emnist-dataset
 ----
 ## To Do:
 - ~~Basic GUI and Functionality.~~
-- ~~Real-time prediction~~
-- ~~Load Model.zip on start, and build one if the file is not found~~
-- Improve overall look and feel of the application
-- Improve loading splash screen
-- Containerize the application
+- ~~Real-Time Prediction~~
+- ~~Create Nueral Network Model on Launch~~
+- ~~Improve Splash Screen~~
+- Implement Unit Testing
+- Improve Overall Style and Layout
+- Containerize the Application (Docker)
 - ~~Refactor~~, Refactor, Refactor...
 
 ---

@@ -2,9 +2,9 @@ package emnist_number_predictor.app;
 import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
-import emnist_number_predictor.components.window.LoadingService;
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.components.window.Window.STYLESHEET;
+import emnist_number_predictor.service.LoadingService;
 import org.nd4j.common.config.ND4JSystemProperties;
 import java.io.File;
 import javafx.application.Application;
@@ -16,8 +16,8 @@ import javafx.scene.layout.BorderPane;
 public class App extends Application {
 
     private static BorderPane root = new BorderPane();
-
     public static Window window = new Window(root);
+
     public static AppController controller = new AppController();
 
     public static void main(String[] args) throws Exception {
@@ -43,9 +43,9 @@ public class App extends Application {
 
         LoadingService.showLoadingScreen(window);
     }
-    
-    public static void showApplication(Window window) {
-        Scene scene = new Scene(root, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
+
+    public static void showApplication() {
+        Scene scene = new Scene(root, window.width.get(), window.height.get());
         scene.setUserAgentStylesheet(STYLESHEET.APPLICATION.getPath());
 
     	root.prefHeightProperty().bind(scene.heightProperty());

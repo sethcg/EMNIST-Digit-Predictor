@@ -1,22 +1,22 @@
-package emnist_number_predictor.model;
+package emnist_number_predictor.service;
 import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
-import emnist_number_predictor.components.window.LoadingService;
 
 @Slf4j
-public class ConfigurationProgress {
+public class ModelConfigurationProgress {
 
-    public boolean hasModel;
+    private static final String INIT_MODEL_CONFIGURATION_PROGRESS_TEXT = "";
+    private static final double INIT_MODEL_CONFIGURATION_PROGRESS_PERCENT = 0.0;
 
     private static final double CONFIGURATION_WEIGHT_PERCENTAGE = 0.2;
     private static final double TRAINING_WEIGHT_PERCENTAGE = 0.7;
     private static final double EVALUATION_WEIGHT_PERCENTAGE = 0.1;
 
     private static final double CONFIGURATION_TOTAL = 4;
-    private static final double EVALUATION_TOTAL = 2;
+    private static final double EVALUATION_TOTAL = 3;
 
-    public enum PROGRESS {
+    public static enum PROGRESS {
         CONFIGURATION(CONFIGURATION_WEIGHT_PERCENTAGE, CONFIGURATION_TOTAL), 
         TRAINING(TRAINING_WEIGHT_PERCENTAGE, (double) EPOCH_NUM), 
         EVALUATION(EVALUATION_WEIGHT_PERCENTAGE, EVALUATION_TOTAL);
@@ -32,26 +32,29 @@ public class ConfigurationProgress {
             this.count = 0;
         }
 
-        public double getProgress(boolean hasModel) {
+        public double getProgress() {
             this.count += 1.0;
             this.progress = weight * (count / total);
-            double totalProgress = hasModel
-                ? PROGRESS.CONFIGURATION.weight + PROGRESS.TRAINING.weight + PROGRESS.EVALUATION.weight
-                : PROGRESS.CONFIGURATION.weight;
+            double totalProgress = PROGRESS.CONFIGURATION.weight + PROGRESS.TRAINING.weight + PROGRESS.EVALUATION.weight;
             double currentProgress = PROGRESS.CONFIGURATION.progress + PROGRESS.TRAINING.progress + PROGRESS.EVALUATION.progress;
             return currentProgress / totalProgress;
         }
 
     };
 
-    public ConfigurationProgress(boolean hasModel) {
-        this.hasModel = hasModel;
+    public static void initialize() {
+        LoadingService.setConfigurationText(INIT_MODEL_CONFIGURATION_PROGRESS_TEXT);
+        LoadingService.setConfigurationProgress(INIT_MODEL_CONFIGURATION_PROGRESS_PERCENT);
     }
 
-    public void incrementProgress(PROGRESS enumValue, String configurationText) {
+    public static void setConfigurationText(String configurationText) {
         log.info(configurationText);
-        double percentComplete = enumValue.getProgress(this.hasModel);
-        LoadingService.setProgress(percentComplete, configurationText);
+        LoadingService.setConfigurationText(configurationText);
+    }
+
+    public static void setConfigurationProgress(PROGRESS enumValue) {
+        double percentComplete = enumValue.getProgress();
+        LoadingService.setConfigurationProgress(percentComplete);
     }
 
 }

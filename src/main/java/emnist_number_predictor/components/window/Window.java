@@ -6,20 +6,19 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 @Slf4j
 public class Window extends Stage {
-    
-    private static final String WINDOW_DEFAULT_STYLE = "window-default";
+
     private static final String APP_CSS_FILENAME = "app.css";
     private static final String LOADING_SCREEN_CSS_FILENAME = "loading-screen.css";
 
     public ObjectProperty<Double> width = new SimpleObjectProperty<Double>(this, "window-width", INIT_WINDOW_WIDTH);
     public ObjectProperty<Double> height = new SimpleObjectProperty<Double>(this, "window-height", INIT_WINDOW_HEIGHT);
 
-    // Enum to store each control button EventHandler
+    // Enum to store CSS files.
     public enum STYLESHEET {
         APPLICATION(APP_CSS_FILENAME), 
         LOADING_SCREEN(LOADING_SCREEN_CSS_FILENAME);
@@ -40,9 +39,7 @@ public class Window extends Stage {
         };
     }
 
-    public Window(Pane root) {
-        root.getStyleClass().add(WINDOW_DEFAULT_STYLE);
-
+    public Window(BorderPane root) {
         this.setMinWidth(INIT_WINDOW_WIDTH);
         this.setMinHeight(INIT_WINDOW_HEIGHT);
 
