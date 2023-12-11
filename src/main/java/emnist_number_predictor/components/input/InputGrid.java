@@ -19,7 +19,7 @@ public final class InputGrid extends GridPane {
         this.setGridSize(GRID_MAX_WIDTH_PERCENTAGE, GRID_INSET_PERCENTAGE);
 
         // Draggable.addDraggableListener(App.window, this);
-        this.initializeInputCells();
+        this.initializeGrid();
 
         // Adjust grid size, when the Appliction window size changes.
 		App.window.width.addListener(new ChangeListener<Double>(){
@@ -42,7 +42,7 @@ public final class InputGrid extends GridPane {
         setPadding(new Insets((App.window.height.get() * insetPercentage)));
     }
 
-    private void initializeInputCells() {
+    private void initializeGrid() {
         for (int row = 0; row < GRID_SIZE; row++) {
     		for (int column = 0; column < GRID_SIZE; column++) {
                 inputCells[row * GRID_SIZE + column] = new InputCell(row, column);
@@ -53,7 +53,7 @@ public final class InputGrid extends GridPane {
 
     public boolean isEmpty() {
         for (InputCell inputCell : inputCells) {
-            if(inputCell.colorValue > 0) {
+            if(inputCell.isSelected()) {
                 return false;
             }
         }
@@ -62,8 +62,7 @@ public final class InputGrid extends GridPane {
 
     public void resetGrid() {
         for (InputCell inputCell : inputCells) {
-            inputCell.setStyle("-fx-background-color: -fx-cell-white;");
-            inputCell.colorValue = 0;
+            inputCell.deselect();
         }
     }
 

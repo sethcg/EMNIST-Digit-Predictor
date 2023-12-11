@@ -1,15 +1,16 @@
 /* Root Values */
 .root {
+	-fx-window-color: #454545;
+
 	-fx-outline: #090909;
 	-fx-text: #FFFFFF;
 	-fx-divider: #141414;
-	-fx-grid-outline: #454545;
 	-fx-cell-white: #efefef;
 	-fx-cell-black: #171717;
 
   	/* Default Values */
   	-fx-font-family: monospace;
-	-fx-background-color: -fx-grid-outline;
+	-fx-background-color: -fx-window-color;
 }
 
 /* PredictionGrid CSS */
@@ -25,7 +26,7 @@
 }
 
 /* Percentage ProgressBar CSS */
-.progress-bar .bar {
+.progress-bar > .bar {
 	-fx-background-color: derive(green,0.9);
 	-fx-background-radius: 3;
 	-fx-background-insets: 0, 1, 2, 1;

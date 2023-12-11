@@ -7,8 +7,8 @@ import javafx.scene.layout.HBox;
 
 public class PredictionRow extends HBox {
 
-    private TextLabel digitLabel = new TextLabel("", 50);
-    private TextLabel percentLabel = new TextLabel("", 100);
+    private TextLabel digitLabel = new TextLabel("", Pos.CENTER_LEFT, 50);
+    private TextLabel percentLabel = new TextLabel("", Pos.CENTER_LEFT, 100);
     private ProgressBar progressBar = new ProgressBar(0.0);
 
     public PredictionRow(int digit) {

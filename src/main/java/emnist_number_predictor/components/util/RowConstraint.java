@@ -11,9 +11,9 @@ public class RowConstraint extends RowConstraints {
         this.setVgrow(priority);
     }
 
-    public RowConstraint(VPos position, Priority priority, double minHeight) {
+    public RowConstraint(VPos position, Priority priority, double height) {
+        super(height);
         this.setValignment(position);
         this.setVgrow(priority);
-        this.setMinHeight(minHeight);
     }
 }

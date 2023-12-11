@@ -2,32 +2,27 @@ package emnist_number_predictor.app;
 import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
+import emnist_number_predictor.components.window.LoadingService;
 import emnist_number_predictor.components.window.Window;
+import emnist_number_predictor.components.window.Window.STYLESHEET;
 import org.nd4j.common.config.ND4JSystemProperties;
 import java.io.File;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 
 @Slf4j
 public class App extends Application {
 
     private static BorderPane root = new BorderPane();
-    
-    public static LoadingScreen loadingScreen = new LoadingScreen();
+
     public static Window window = new Window(root);
     public static AppController controller = new AppController();
 
     public static void main(String[] args) throws Exception {
         // Disable default logging for ND4J.
         System.setProperty(ND4JSystemProperties.LOG_INITIALIZATION, "false");
-
         launch(args); 
     }
 
@@ -42,51 +37,19 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // window.initStyle(StageStyle.UNDECORATED);
+        // Initialize Window Values
         window.setTitle("EMNIST Number Predictor");
+        // window.initStyle(StageStyle.UNDECORATED);
 
-        // Show loading screen, while also saving/loading the Model
-        final Task<Void> modelTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                controller.initializeModel();
-                return null;
-            }
-        };
-        
-        this.showLoadingScreen(window, modelTask);
-        new Thread(modelTask).start();
+        LoadingService.showLoadingScreen(window);
     }
-
-    private void showLoadingScreen(Window window, Task<?> task) {
-        task.stateProperty().addListener((observableValue, oldState, newState) -> {
-            if (newState == Worker.State.SUCCEEDED) {
-                // window.toFront();
-
-                FadeTransition loadingTransition = new FadeTransition(Duration.seconds(1.0), new LoadingScreen());
-                loadingTransition.setFromValue(1.0);
-                loadingTransition.setToValue(0.0);
-                loadingTransition.setOnFinished(actionEvent -> showApplication(window));
-                loadingTransition.play();
-            }
-        });
-
-        Scene loadingScene = new Scene(loadingScreen, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT, Color.TRANSPARENT);
-        loadingScreen.prefHeightProperty().bind(loadingScene.heightProperty());
-    	loadingScreen.prefWidthProperty().bind(loadingScene.widthProperty());
-
-        window.setScene(loadingScene);
-        window.show();
-    }
-
-    private void showApplication(Window window) {
+    
+    public static void showApplication(Window window) {
         Scene scene = new Scene(root, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
+        scene.setUserAgentStylesheet(STYLESHEET.APPLICATION.getPath());
+
     	root.prefHeightProperty().bind(scene.heightProperty());
     	root.prefWidthProperty().bind(scene.widthProperty());
-
-        // Set CSS styles
-        File cssFile = new File(App.class.getClassLoader().getResource("styles.css").getFile());
-        scene.setUserAgentStylesheet(cssFile.toURI().toString());
 
         // Initializing the Application services.
         root.setCenter(controller.inputGrid);

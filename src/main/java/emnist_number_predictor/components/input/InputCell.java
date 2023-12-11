@@ -12,8 +12,9 @@ import javafx.beans.value.ObservableValue;
 
 public class InputCell extends StackPane {
 
-	public int row, column, colorValue;
+	public int row, column;
 
+	public float colorValue = BLACK_COLOR_VALUE;
 	private static final String INPUT_CELL_DEFAULT_STYLE = "input-cell-default";
 
 	private ObjectProperty<Double> cellWidth = new SimpleObjectProperty<Double>(this, "cell-width", INIT_CELL_WIDTH);
@@ -68,16 +69,28 @@ public class InputCell extends StackPane {
      	});
     }
 
+	public boolean isSelected() {
+		return this.colorValue == WHITE_COLOR_VALUE;
+	}
+
+	public void select() {
+		this.setStyle("-fx-background-color: -fx-cell-black;");
+		this.colorValue = WHITE_COLOR_VALUE;
+	}
+
+	public void deselect() {
+		this.setStyle("-fx-background-color: -fx-cell-white;");
+		this.colorValue = BLACK_COLOR_VALUE;
+	}
+
     private void updateColor(MouseEvent event){
     	InputCell inputCell = (InputCell) event.getSource();
 		if(event.isPrimaryButtonDown()) { 
-			// Left MouseButton Selects
-			inputCell.setStyle("-fx-background-color: -fx-cell-black;");
-			inputCell.colorValue = 255;
+			// Right MouseButton select
+			this.select();
     	} else if(event.isSecondaryButtonDown()) { 
-			// Right MouseButton Erases
-			inputCell.setStyle("-fx-background-color: -fx-cell-white;");
-			inputCell.colorValue = 0;
+			// Right MouseButton deselect
+			this.deselect();
     	}
 		App.controller.updatePrediction(inputCell);
     }

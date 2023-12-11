@@ -6,6 +6,7 @@ import emnist_number_predictor.components.input.InputCell;
 import emnist_number_predictor.components.input.InputGrid;
 import emnist_number_predictor.components.prediction.PredictionGrid;
 import emnist_number_predictor.model.Model;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,17 +21,14 @@ import org.nd4j.linalg.factory.Nd4j;
 public class AppController {
 
 	private Model model;
-
 	public InputGrid inputGrid = new InputGrid();
 	public PredictionGrid predictionGrid = new PredictionGrid();
 
-    private int[] integerRGBArray = new int[UPSCALED_ARRAY_SIZE];
-    private float[] floatRGBArray = new float[UPSCALED_ARRAY_SIZE];
+	private BufferedImage screenshot = new BufferedImage(UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, BufferedImage.TYPE_INT_RGB);
+	private float[] floatRGBArray = new float[UPSCALED_ARRAY_SIZE];
 
-	// Expensive method, loads or creates the Neural Network Model.
-	// Both take time, and this is called within scope of the loading screen.
-	public void initializeModel() {
-		this.model = new Model();
+	public void initializeModel(Model model) {
+		this.model = model;
 	}
 
 	private INDArray getPrediction() {
@@ -59,44 +57,39 @@ public class AppController {
 	public void updatePrediction(InputCell cell) {
         // Sets the necessary values given a row/column from a 14x14 single dimensional matrix. 
         // Upscaled to 28x28 matrix, for each input cell selected.
-		int colorValue = cell.colorValue;
+		int colorRGB = (int) (cell.colorValue / BLACK_COLOR_VALUE);
         int upscaledRow = UPSCALE_FACTOR * cell.row;
         int upscaledColumn = UPSCALE_FACTOR * cell.column;
 
         // Set RGB float values, for INDArray (neural network) purposes.
-        floatRGBArray[(upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn)] = (float) colorValue;
-        floatRGBArray[(upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = (float) colorValue;
-        floatRGBArray[(upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn] = (float) colorValue;
-        floatRGBArray[((upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = (float) colorValue;
+        floatRGBArray[(upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn)] = cell.colorValue;
+        floatRGBArray[(upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = cell.colorValue;
+        floatRGBArray[(upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn] = cell.colorValue;
+        floatRGBArray[((upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = cell.colorValue;
 
-        // Set RGB int values, for saving image purposes.
-        integerRGBArray[upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn] = colorValue;
-        integerRGBArray[(upscaledRow * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = colorValue;
-        integerRGBArray[(upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn] = colorValue;
-        integerRGBArray[((upscaledRow + 1) * UPSCALED_GRID_SIZE + upscaledColumn) + 1] = colorValue;
+        // setRGB values for the current BufferedImage.
+		this.screenshot.setRGB(upscaledColumn, upscaledRow, colorRGB);
+		this.screenshot.setRGB(upscaledColumn, upscaledRow + 1, colorRGB);
+		this.screenshot.setRGB(upscaledColumn + 1, upscaledRow, colorRGB);
+		this.screenshot.setRGB(upscaledColumn + 1, upscaledRow + 1, colorRGB);
 
 		// Update prediction displayed values.
 		this.updatePredictionGrid();
 	}
 
 	public void resetPrediction() {
-		// Fill RGB arrays with default values.
-		Arrays.fill(integerRGBArray, 0);
+		// Return float array and BufferedImage to their defaults
 		Arrays.fill(floatRGBArray, 0);
+		this.screenshot = new BufferedImage(UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, BufferedImage.TYPE_INT_RGB);
 
-		// Reset input grid.
+		// Reset input grid
         this.inputGrid.resetGrid();
 
-		// Update prediction displayed values.
+		// Update prediction displayed values
 		this.updatePredictionGrid();
 	}
 
 	public void saveScreenshot() {
-        BufferedImage screenshot = new BufferedImage(UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, BufferedImage.TYPE_INT_RGB);
-
-        // Set RGB values for each pixel of the 28x28 image based on the rgbArray.
-        screenshot.setRGB(0, 0, UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, integerRGBArray, 0, UPSCALED_GRID_SIZE);
-
 		try {
 			ImageIO.write(screenshot, "png", new File(SCREENSHOT_PATH));
 		} catch (IOException e) {

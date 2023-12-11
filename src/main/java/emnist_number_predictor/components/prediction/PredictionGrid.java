@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+
 import java.util.ArrayList;
 
 public class PredictionGrid extends GridPane {

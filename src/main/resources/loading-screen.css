@@ -1,0 +1,32 @@
+/* Root Values */
+.root {
+	-fx-window-color: #454545;
+	-fx-text: #FFFFFF;
+	
+  	-fx-font-family: monospace;
+	-fx-background-color: -fx-window-color;
+}
+
+/* Label CSS */
+.label{
+    -fx-text-fill: -fx-text;
+	-fx-font-weight: bold;
+	-fx-font-size: 14px;
+}
+
+
+/* Percentage ProgressBar CSS */
+.progress-bar {
+	-fx-background-color: #141414;
+	-fx-background-radius: 3;
+	-fx-background-insets: 0, 1, 2, 1;
+}
+
+.progress-bar > .bar {
+	-fx-text-align: left;
+	-fx-background-color: derive(green,0.9);
+	-fx-background-radius: 3;
+	-fx-background-insets: 0, 1, 2, 1;
+	-fx-effect: dropshadow(gaussian, derive(green,0.9), 5, 0.2, 0.0, 0.0);
+    -fx-padding: 8, 0, 8, 0;
+}

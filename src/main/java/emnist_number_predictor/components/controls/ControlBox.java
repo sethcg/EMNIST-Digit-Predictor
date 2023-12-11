@@ -7,12 +7,15 @@ import javafx.scene.layout.HBox;
 
 public class ControlBox extends HBox {
 
+	private static final String RESET_BUTTON_TEXT = "Reset";
+	private static final String SAVE_BUTTON_TEXT = "Save Image";
+
 	public ControlBox() {
 
 		this.getChildren().addAll(
-			new ControlButton("Reset", Pos.CENTER_LEFT, FUNCTION.RESET), 
+			new ControlButton(RESET_BUTTON_TEXT, Pos.CENTER_LEFT, FUNCTION.RESET), 
 			new Spacer(),
-			new ControlButton("Save Image", Pos.CENTER_RIGHT, FUNCTION.SAVE));
+			new ControlButton(SAVE_BUTTON_TEXT, Pos.CENTER_RIGHT, FUNCTION.SAVE));
 	}
 
 }

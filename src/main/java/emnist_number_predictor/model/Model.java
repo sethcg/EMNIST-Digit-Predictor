@@ -23,8 +23,9 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 @Slf4j
 public class Model {
 
+	private File file;
 	private MultiLayerNetwork network;
-	private ConfigurationProgress progress = new ConfigurationProgress();
+	private ConfigurationProgress progress;
 
 	private static final long RNG_SEED = 123;
 	private static final int EMNIST_IMAGE_WIDTH = 28;
@@ -39,9 +40,12 @@ public class Model {
 	private static final EMnistSet EMNIST_SET = EMnistSet.DIGITS;
 	private EmnistDataSetIterator trainingIterator, testingIterator;
 
-	public Model() {
+	public Model(File file, ConfigurationProgress progress) {
+		this.file = file;
+		this.progress = progress;
+
 		this.network = new MultiLayerNetwork(this.getConfiguration());
-		this.initializeModel();
+		this.initializeModel(progress.hasModel);
 	}
 
 	public INDArray getPrediction(INDArray predictionInput) {
@@ -49,8 +53,8 @@ public class Model {
 	}
 
 	private MultiLayerConfiguration getConfiguration() {
-		log.info("Configuring Neural Network Model");
-		MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
+		this.progress.incrementProgress(PROGRESS.CONFIGURATION, "Configuring Neural Network");
+		return new NeuralNetConfiguration.Builder()
 				.seed(RNG_SEED)
 				.updater(new Adam())
 				.l2(1e-4)
@@ -68,59 +72,54 @@ public class Model {
 						.weightInit(WeightInit.XAVIER)
 						.build())
 				.build();
-		progress.incrementProgress(PROGRESS.CONFIGURATION);
-		return configuration;
 	}
 
-	private void initializeModel() {
-		log.info("Initializing Neural Network Model");
+	private void initializeModel(boolean hasModel) {
+		progress.incrementProgress(PROGRESS.CONFIGURATION, "Fetching EMNIST Data");
 		try {
 			this.trainingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, true);
-			this.testingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, false);
-			progress.incrementProgress(PROGRESS.CONFIGURATION);
-
-			File file = new File(MODEL_PATH);
-			if(file.createNewFile() || DEBUG_REBUILD_MODEL_OPTION) {
-				this.trainModel();
-				this.evaluateModel();
-				this.saveModel();
-			}
-			progress.incrementProgress(PROGRESS.CONFIGURATION);
-			this.loadModel();
-			progress.incrementProgress(PROGRESS.CONFIGURATION);
+			this.testingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, false);	
 		} catch (Exception exception) {
-			log.error("Error during the initialization process.");
+			log.error("Error fetching EMNIST datasets.");
+		}
+
+		if(hasModel) {
+			this.trainModel();
+			this.evaluateModel();
+			this.saveModel();
+		}
+		
+		try {
+			this.loadModel();
+		} catch (Exception exception) {
+			this.initializeModel(hasModel);
 		}
 	}
 
-	private void saveModel() throws Exception {
-		log.info("Saving the model");
+	private void saveModel() {
+		progress.incrementProgress(PROGRESS.CONFIGURATION, "Saving Model");
 		try {
-			File modelFile = new File(MODEL_PATH);
-			ModelSerializer.writeModel(network, modelFile, false);
-		} catch (Exception exception) {
+			ModelSerializer.writeModel(network, this.file, false);
+		} catch (IOException exception) {
 			log.error("Error saving %s to Path: %s", MODEL_FILE_NAME, MODEL_PATH);
-			throw exception;
 		}
 	}
 
 	private void loadModel() throws IOException {
-		log.info("Loading the model");
-		File modelFile = new File(MODEL_PATH);
+		progress.incrementProgress(PROGRESS.CONFIGURATION, "Loading Model");
 		try {
-			network = ModelSerializer.restoreMultiLayerNetwork(modelFile);
-			System.out.println(network);
+			network = ModelSerializer.restoreMultiLayerNetwork(this.file);
 		} catch (IOException exception) {
 			log.error("Error loading %s from Path: %s", MODEL_FILE_NAME, MODEL_PATH);
-			throw exception;
 		}
 	}
 
 	private void trainModel() {
-		log.info("Training the model through %s epochs.", EPOCH_NUM);
+		System.out.println(EPOCH_NUM);
 		for(int i = 1; i < EPOCH_NUM + 1; i++) {
+			String configurationText = String.format("Training Epoch %d / %d", i, EPOCH_NUM);
+			progress.incrementProgress(PROGRESS.TRAINING, configurationText);
 			network.fit(trainingIterator);
-			progress.incrementProgress(PROGRESS.TRAINING);
 		}
 	}
 
@@ -138,15 +137,14 @@ public class Model {
 	// 	log.info("Total training time: " + formatTime(endTotal - startTotal));
 	// }
 
-	private void evaluateModel() throws Exception {
-		log.info("Evaluating the model's performance.");
+	private void evaluateModel() {
 		// Evaluate basic performance
 		String basicEvaluation = network.evaluate(testingIterator).stats();
-		progress.incrementProgress(PROGRESS.EVALUATION);
+		progress.incrementProgress(PROGRESS.EVALUATION, "Evaluating basic performance");
 
 		// Evaluate ROC and calculate the area under curve
 		String rocEvaluation = network.evaluateROCMultiClass(testingIterator, 0).stats();
-		progress.incrementProgress(PROGRESS.EVALUATION);
+		progress.incrementProgress(PROGRESS.EVALUATION, "Evaluating ROC performance");
 
 		try {
 			File file = new File(EVALUATION_PATH);
@@ -157,9 +155,8 @@ public class Model {
 			output.printf("%n%s%n%n%s", basicEvaluation, rocEvaluation);
 			output.flush();
 			output.close();
-		} catch (Exception exception) {
-			log.error("Error evaluating %s to Path: %s", EVALUATION_FILE_NAME, EVALUATION_PATH);
-			throw exception;
+		} catch (IOException exception) {
+			log.error("Error saving %s to Path: %s", EVALUATION_FILE_NAME, EVALUATION_PATH);
 		}
 	}
 

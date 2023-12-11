@@ -1,15 +1,13 @@
 package emnist_number_predictor.model;
 import static emnist_number_predictor.util.Const.*;
 
-import java.io.File;
-import emnist_number_predictor.app.App;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import lombok.extern.slf4j.Slf4j;
+import emnist_number_predictor.components.window.LoadingService;
 
+@Slf4j
 public class ConfigurationProgress {
 
-    private boolean hasModel = new File(MODEL_PATH).exists();
-    private DoubleProperty progress = new SimpleDoubleProperty(this, "percent");
+    public boolean hasModel;
 
     private static final double CONFIGURATION_WEIGHT_PERCENTAGE = 0.2;
     private static final double TRAINING_WEIGHT_PERCENTAGE = 0.7;
@@ -37,22 +35,23 @@ public class ConfigurationProgress {
         public double getProgress(boolean hasModel) {
             this.count += 1.0;
             this.progress = weight * (count / total);
-
             double totalProgress = hasModel
-                ? PROGRESS.CONFIGURATION.weight
-                : PROGRESS.CONFIGURATION.weight + PROGRESS.TRAINING.weight + PROGRESS.EVALUATION.weight;
+                ? PROGRESS.CONFIGURATION.weight + PROGRESS.TRAINING.weight + PROGRESS.EVALUATION.weight
+                : PROGRESS.CONFIGURATION.weight;
             double currentProgress = PROGRESS.CONFIGURATION.progress + PROGRESS.TRAINING.progress + PROGRESS.EVALUATION.progress;
             return currentProgress / totalProgress;
         }
 
     };
 
-    public ConfigurationProgress() {
-        App.loadingScreen.loadProgress.progressProperty().bind(progress);
+    public ConfigurationProgress(boolean hasModel) {
+        this.hasModel = hasModel;
     }
 
-    public void incrementProgress(PROGRESS enumValue) {
-        this.progress.set(enumValue.getProgress(this.hasModel));
+    public void incrementProgress(PROGRESS enumValue, String configurationText) {
+        log.info(configurationText);
+        double percentComplete = enumValue.getProgress(this.hasModel);
+        LoadingService.setProgress(percentComplete, configurationText);
     }
 
 }

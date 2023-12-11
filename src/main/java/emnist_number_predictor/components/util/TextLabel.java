@@ -9,12 +9,12 @@ public class TextLabel extends Label {
 
     private static final String LABEL_DEFAULT_STYLE = "label-default";
 
-    public TextLabel(String text, int width) {
+    public TextLabel(String text, Pos position, int width) {
         this.getStyleClass().add(LABEL_DEFAULT_STYLE);
 
         this.setText(text);
         this.setMinWidth(width);
-        this.setAlignment(Pos.CENTER_LEFT);
+        this.setAlignment(position);
         HBox.setHgrow(this, Priority.NEVER);
     }
 
