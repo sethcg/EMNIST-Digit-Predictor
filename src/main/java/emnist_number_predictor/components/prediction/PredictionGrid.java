@@ -1,13 +1,14 @@
 package emnist_number_predictor.components.prediction;
 
+import emnist_number_predictor.app.App;
 import emnist_number_predictor.components.controls.ControlBox;
 import emnist_number_predictor.components.util.RowConstraint;
+import emnist_number_predictor.util.Draggable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-
 import java.util.ArrayList;
 
 public class PredictionGrid extends GridPane {
@@ -27,18 +28,18 @@ public class PredictionGrid extends GridPane {
 			new RowConstraint(VPos.CENTER, Priority.ALWAYS)
 		);
 
-		// Draggable.addDraggableListener(App.window, this);
+		Draggable.addDraggableListener(App.window, this);
 		this.initializeGrid();
 	}
 
 	private void initializeGrid() {
 		// Initialize control buttons
-		this.add(new ControlBox(), 0, 0);
+		this.addRow(0, new ControlBox());
 
 		// Initialize prediction rows
 		for (int digit = 0; digit < 10; digit++) {
 			PredictionRow row = new PredictionRow(digit);
-			this.add(row, 0,  digit + 1);
+			this.addRow(digit + 1, row);
 			this.predictions.add(row);
 		}
 	}

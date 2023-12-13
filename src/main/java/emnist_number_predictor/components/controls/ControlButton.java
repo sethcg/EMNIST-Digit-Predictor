@@ -2,8 +2,7 @@ package emnist_number_predictor.components.controls;
 
 import javafx.geometry.Pos;
 import emnist_number_predictor.app.App;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import emnist_number_predictor.util.HandleButton;
 import javafx.scene.control.Button;
 
 public class ControlButton extends Button {
@@ -14,29 +13,20 @@ public class ControlButton extends Button {
         this.setPrefWidth(USE_COMPUTED_SIZE);
         this.setText(text);
         this.getStyleClass().add(CONTROL_BUTTON_DEFAULT_STYLE);
-		this.setOnAction(enumValue.eventHandler());
+		this.setOnAction(enumValue.handleButton);
         this.setAlignment(position);
     }
 
-    // Enum to store each control button EventHandler
-    public enum FUNCTION {
-        SAVE   { 
-            EventHandler<ActionEvent> eventHandler() { 
-                return new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent event) { App.controller.saveScreenshot(); }
-                };
-            }
-        },
-        RESET  { 
-            EventHandler<ActionEvent> eventHandler() { 
-                return new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent event) { App.controller.resetPrediction(); }
-                };
-            }
+    // Enum ButtonHandle
+    public static enum FUNCTION {
+        SAVE(() -> { App.controller.saveScreenshot(); }),
+        RESET(() -> { App.controller.resetPrediction(); });
+
+        public HandleButton<Void> handleButton;
+
+        private FUNCTION(Runnable method) {
+            this.handleButton = new HandleButton<Void>(method);
         };
-        abstract EventHandler<ActionEvent> eventHandler();
     }
 
 }

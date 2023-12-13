@@ -4,20 +4,16 @@ import static emnist_number_predictor.util.Const.*;
 import lombok.extern.slf4j.Slf4j;
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.components.window.Window.STYLESHEET;
-import emnist_number_predictor.service.LoadingService;
 import org.nd4j.common.config.ND4JSystemProperties;
 import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 @Slf4j
 public class App extends Application {
 
-    private static BorderPane root = new BorderPane();
-    public static Window window = new Window(root);
-
+    public static boolean hasModel = false;
+    public static Window window = new Window();
     public static AppController controller = new AppController();
 
     public static void main(String[] args) throws Exception {
@@ -28,6 +24,8 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
+        hasModel = createModelFile();
+
         // Add .emnist-data-predictor folder to store and write to external files
         File directory = new File(DIRECTORY_PATH);
         if(directory.mkdir()) {
@@ -37,27 +35,22 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // Initialize Window Values
-        window.setTitle("EMNIST Number Predictor");
-        // window.initStyle(StageStyle.UNDECORATED);
-
-        LoadingService.showLoadingScreen(window);
+        window.initialize();
+        window.setScene(STYLESHEET.LOADING_SCREEN);
+        window.show();
     }
 
-    public static void showApplication() {
-        Scene scene = new Scene(root, window.width.get(), window.height.get());
-        scene.setUserAgentStylesheet(STYLESHEET.APPLICATION.getPath());
+    private static boolean createModelFile() {
+        // Debug option to force build.
+        if(ENABLE_DEBUG_REBUILD_MODEL_OPTION) return false;
 
-    	root.prefHeightProperty().bind(scene.heightProperty());
-    	root.prefWidthProperty().bind(scene.widthProperty());
-
-        // Initializing the Application services.
-        root.setCenter(controller.inputGrid);
-        root.setBottom(controller.predictionGrid);
-        controller.resetPrediction();
-
-        window.setScene(scene);
-        window.show();
+        File file = new File(MODEL_PATH);
+        try {
+            return !file.createNewFile();
+        } catch (Exception exception) {
+            log.error("Error creating the %s file.", MODEL_FILE_NAME);
+            return false;
+        }
     }
 
 }

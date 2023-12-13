@@ -2,17 +2,18 @@ package emnist_number_predictor.components.input;
 import static emnist_number_predictor.util.Const.*;
 
 import emnist_number_predictor.app.App;
-import javafx.event.EventHandler;
+import emnist_number_predictor.components.window.Window;
+import emnist_number_predictor.util.HandleMouse;
+import emnist_number_predictor.util.Listener;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class InputCell extends StackPane {
 
 	public int row, column;
+	public boolean selected;
 
 	public float colorValue = BLACK_COLOR_VALUE;
 	private static final String INPUT_CELL_DEFAULT_STYLE = "input-cell-default";
@@ -29,70 +30,42 @@ public class InputCell extends StackPane {
 		this.prefWidthProperty().bind(cellWidth);
 		this.prefHeightProperty().bind(cellHeight);
 
-		// Adjust cell size, when the Appliction window width or height changes.
-		App.window.width.addListener(new ChangeListener<Double>(){
-			@Override
-			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-				cellWidth.setValue(App.window.width.get() / GRID_SIZE);
-			}
-		});
-		App.window.height.addListener(new ChangeListener<Double>(){
-			@Override
-			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-				cellWidth.setValue(App.window.height.get() / GRID_SIZE);
-			}
-		});
+		// Adjust cell size, when the Appliction window size changes.
+		Window.width.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.width.get() / (double) GRID_SIZE); }));
+		Window.height.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.height.get() / (double) GRID_SIZE); }));
 
-     	// Select or deselect cell on MousePress
-     	this.setOnMousePressed(new EventHandler<MouseEvent>(){
-     		@Override
-     		public void handle(MouseEvent event) { 
-				updateColor(event);
-				event.consume();
-			}
-     	});
-     	
-     	// Select or deselect cells on MouseDrag
-        this.setOnDragDetected(new EventHandler<MouseEvent>(){
-     		@Override
-     		public void handle(MouseEvent event) { 
-				((InputCell) event.getSource()).startFullDrag(); 
-				event.consume();
-			}
-     	});
-     	this.setOnMouseDragEntered(new EventHandler<MouseEvent>(){
-     		@Override
-     		public void handle(MouseEvent event) { 
-				updateColor(event);
-				event.consume();
-			}
-     	});
+		// Handle MouseClick
+		this.setOnMouseClicked(new HandleMouse<MouseEvent>((event) -> { updateColor(event); }));
+		this.setOnMousePressed(new HandleMouse<MouseEvent>((event) -> { updateColor(event); }));
+
+		// Handle MouseDrag
+		this.setOnDragDetected(new HandleMouse<MouseEvent>((event) -> { startFullDrag(); }));
+		this.setOnMouseDragEntered(new HandleMouse<MouseEvent>((event) -> { updateColor(event); }));
     }
 
-	public boolean isSelected() {
-		return this.colorValue == WHITE_COLOR_VALUE;
-	}
-
 	public void select() {
+		this.selected = true;
 		this.setStyle("-fx-background-color: -fx-cell-black;");
 		this.colorValue = WHITE_COLOR_VALUE;
 	}
 
 	public void deselect() {
+		this.selected = false;
 		this.setStyle("-fx-background-color: -fx-cell-white;");
 		this.colorValue = BLACK_COLOR_VALUE;
 	}
 
-    private void updateColor(MouseEvent event){
+	private void updateColor(MouseEvent event) {
     	InputCell inputCell = (InputCell) event.getSource();
-		if(event.isPrimaryButtonDown()) { 
+		if(event.isPrimaryButtonDown() && !inputCell.selected) { 
 			// Right MouseButton select
 			this.select();
-    	} else if(event.isSecondaryButtonDown()) { 
+			App.controller.updatePrediction(inputCell);
+    	} else if(event.isSecondaryButtonDown() && inputCell.selected) { 
 			// Right MouseButton deselect
 			this.deselect();
+			App.controller.updatePrediction(inputCell);
     	}
-		App.controller.updatePrediction(inputCell);
     }
 
 }

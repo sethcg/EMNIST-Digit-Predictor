@@ -10,8 +10,8 @@ public class Draggable {
 
     public static void addDraggableListener(Window window, Node node) {
     	DraggableListener resizeListener = new DraggableListener(window);
-        node.addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
-        node.addEventHandler(MouseEvent.MOUSE_DRAGGED, resizeListener);
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
+		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, resizeListener);
     }
 
     private static class DraggableListener implements EventHandler<MouseEvent> {
@@ -25,6 +25,9 @@ public class Draggable {
     	
     	@Override
     	public void handle(MouseEvent mouseEvent) {
+			System.out.println(mouseEvent.isConsumed());
+			System.out.println(mouseEvent.getSource());
+
             EventType<? extends MouseEvent> mouseEventType = mouseEvent.getEventType();
             if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType) == true) {
             	x = mouseEvent.getSceneX();

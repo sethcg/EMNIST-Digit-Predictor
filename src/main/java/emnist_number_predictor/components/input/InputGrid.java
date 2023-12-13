@@ -1,59 +1,59 @@
 package emnist_number_predictor.components.input;
-
 import static emnist_number_predictor.util.Const.*;
 
 import emnist_number_predictor.app.App;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
+import emnist_number_predictor.components.window.Window;
+import emnist_number_predictor.util.Draggable;
+import emnist_number_predictor.util.Listener;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
-public final class InputGrid extends GridPane {
+public final class InputGrid extends BorderPane {
 
-    private static final double GRID_MAX_WIDTH_PERCENTAGE = 0.6;
-    private static final double GRID_INSET_PERCENTAGE = 0.05;
+    // private static final double GRID_MAX_WIDTH_PERCENTAGE = 0.6;
+    // private static final double GRID_INSET_PERCENTAGE = 0.05;
 
     private InputCell[] inputCells = new InputCell[GRID_SIZE * GRID_SIZE];
 
     public InputGrid() {
-        this.setGridSize(GRID_MAX_WIDTH_PERCENTAGE, GRID_INSET_PERCENTAGE);
-
         // Draggable.addDraggableListener(App.window, this);
-        this.initializeGrid();
 
         // Adjust grid size, when the Appliction window size changes.
-		App.window.width.addListener(new ChangeListener<Double>(){
-			@Override
-			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-                setGridSize(GRID_MAX_WIDTH_PERCENTAGE, GRID_INSET_PERCENTAGE);
-			}
-		});
-		App.window.height.addListener(new ChangeListener<Double>(){
-			@Override
-			public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-                setGridSize(GRID_MAX_WIDTH_PERCENTAGE, GRID_INSET_PERCENTAGE);
-			}
-		});
+		Window.width.addListener(new Listener<Number>(() -> { setSize(); }));
+		Window.height.addListener(new Listener<Number>(() -> { setSize(); }));
+
+        this.setCenter(this.initializeGrid());
+        this.setBorder(new Border(new BorderStroke(Color.RED, 
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    }
+    
+    private void setSize() {
+        var windowHeight = Window.height.get();
+        var windowWidth = Window.width.get();
+        this.setMaxWidth(Math.min(windowHeight, windowWidth));
+        this.setMaxHeight(Math.min(windowHeight, windowWidth));
     }
 
-    private void setGridSize(double maxWidthPercentage, double insetPercentage) {
-        setMaxWidth(App.window.height.get() * maxWidthPercentage);
-        setMaxHeight(App.window.width.get());
-        setPadding(new Insets((App.window.height.get() * insetPercentage)));
-    }
-
-    private void initializeGrid() {
+    private GridPane initializeGrid() {
+        GridPane inputGrid = new GridPane();
         for (int row = 0; row < GRID_SIZE; row++) {
     		for (int column = 0; column < GRID_SIZE; column++) {
                 inputCells[row * GRID_SIZE + column] = new InputCell(row, column);
-    			this.add(inputCells[row * GRID_SIZE + column], column, row);
+    			inputGrid.add(inputCells[row * GRID_SIZE + column], column, row);
     		}
     	}
+        return inputGrid;
     }
 
     public boolean isEmpty() {
         for (InputCell inputCell : inputCells) {
-            if(inputCell.isSelected()) {
+            if(inputCell.selected) {
                 return false;
             }
         }

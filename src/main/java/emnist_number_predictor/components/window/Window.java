@@ -4,9 +4,17 @@ import static emnist_number_predictor.util.Const.*;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+
+import emnist_number_predictor.app.App;
+import emnist_number_predictor.service.LoadingScreen;
+import emnist_number_predictor.service.LoadingService;
+import emnist_number_predictor.util.Draggable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 @Slf4j
@@ -15,11 +23,15 @@ public class Window extends Stage {
     private static final String APP_CSS_FILENAME = "app.css";
     private static final String LOADING_SCREEN_CSS_FILENAME = "loading-screen.css";
 
-    public ObjectProperty<Double> width = new SimpleObjectProperty<Double>(this, "window-width", INIT_WINDOW_WIDTH);
-    public ObjectProperty<Double> height = new SimpleObjectProperty<Double>(this, "window-height", INIT_WINDOW_HEIGHT);
+    private static BorderPane root = new BorderPane();
+    private static Scene scene = new Scene(root, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT, Color.TRANSPARENT);
+    public static LoadingScreen loadingScreen = new LoadingScreen(App.hasModel);
+
+    public static DoubleProperty width = new SimpleDoubleProperty(INIT_WINDOW_WIDTH, "window-width");
+    public static DoubleProperty height = new SimpleDoubleProperty(INIT_WINDOW_WIDTH, "window-width");
 
     // Enum to store CSS files.
-    public enum STYLESHEET {
+    public static enum STYLESHEET {
         APPLICATION(APP_CSS_FILENAME), 
         LOADING_SCREEN(LOADING_SCREEN_CSS_FILENAME);
 
@@ -39,12 +51,42 @@ public class Window extends Stage {
         };
     }
 
-    public Window(BorderPane root) {
+    public void initialize() {
         this.setMinWidth(INIT_WINDOW_WIDTH);
         this.setMinHeight(INIT_WINDOW_HEIGHT);
 
+        root.prefHeightProperty().bind(Window.width);
+        root.prefWidthProperty().bind(Window.height);
+
+        // this.initStyle(StageStyle.UNDECORATED);
+        this.setTitle("EMNIST Number Predictor");
+
         width.bind(root.widthProperty().asObject());
         height.bind(root.heightProperty().asObject());
+
+        this.setScene(scene);
+    }
+
+    public void setScene(STYLESHEET STYLESHEET) {
+        scene.setUserAgentStylesheet(STYLESHEET.getPath());
+
+        switch (STYLESHEET) {
+            case APPLICATION -> {
+                BorderPane.setMargin(App.controller.inputGrid, new Insets(20));
+                root.setCenter(App.controller.inputGrid);
+                root.setBottom(App.controller.predictionGrid);
+            }
+            case LOADING_SCREEN -> {
+                new Thread(LoadingService.initializeModel()).start();
+
+                // Bind configuration progress values
+                loadingScreen.configurationProgressBar.progressProperty().bind(LoadingService.configurationProgress);
+                loadingScreen.configurationText.textProperty().bind(LoadingService.configurationProgressText);
+
+                Draggable.addDraggableListener(App.window, loadingScreen);
+                root.setCenter(loadingScreen);
+            }
+        }
     }
 
 }
