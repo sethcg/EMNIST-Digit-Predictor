@@ -1,36 +1,20 @@
 package emnist_number_predictor.components.input;
 import static emnist_number_predictor.util.Const.*;
 
-import emnist_number_predictor.app.App;
 import emnist_number_predictor.components.window.Window;
-import emnist_number_predictor.util.Draggable;
 import emnist_number_predictor.util.Listener;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
-public final class InputGrid extends BorderPane {
-
-    // private static final double GRID_MAX_WIDTH_PERCENTAGE = 0.6;
-    // private static final double GRID_INSET_PERCENTAGE = 0.05;
+public final class InputGrid extends GridPane {
 
     private InputCell[] inputCells = new InputCell[GRID_SIZE * GRID_SIZE];
 
     public InputGrid() {
-        // Draggable.addDraggableListener(App.window, this);
-
         // Adjust grid size, when the Appliction window size changes.
 		Window.width.addListener(new Listener<Number>(() -> { setSize(); }));
 		Window.height.addListener(new Listener<Number>(() -> { setSize(); }));
 
-        this.setCenter(this.initializeGrid());
-        this.setBorder(new Border(new BorderStroke(Color.RED, 
-            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        this.addRow(0, this.initializeGrid());
     }
     
     private void setSize() {
