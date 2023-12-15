@@ -16,8 +16,7 @@ public class Draggable {
 
     private static class DraggableListener implements EventHandler<MouseEvent> {
     	private Window window;
-    	private double x = 0;
-    	private double y = 0;
+    	private double x, y;
     	
     	public DraggableListener(Window window) {
             this.window = window;
@@ -25,9 +24,6 @@ public class Draggable {
     	
     	@Override
     	public void handle(MouseEvent mouseEvent) {
-			System.out.println(mouseEvent.isConsumed());
-			System.out.println(mouseEvent.getSource());
-
             EventType<? extends MouseEvent> mouseEventType = mouseEvent.getEventType();
             if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType) == true) {
             	x = mouseEvent.getSceneX();

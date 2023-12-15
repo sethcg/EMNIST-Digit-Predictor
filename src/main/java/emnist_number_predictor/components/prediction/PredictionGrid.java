@@ -1,9 +1,7 @@
 package emnist_number_predictor.components.prediction;
 
-import emnist_number_predictor.app.App;
 import emnist_number_predictor.components.controls.ControlBox;
 import emnist_number_predictor.components.util.RowConstraint;
-import emnist_number_predictor.util.Draggable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -28,7 +26,6 @@ public class PredictionGrid extends GridPane {
 			new RowConstraint(VPos.CENTER, Priority.ALWAYS)
 		);
 
-		Draggable.addDraggableListener(App.window, this);
 		this.initializeGrid();
 	}
 

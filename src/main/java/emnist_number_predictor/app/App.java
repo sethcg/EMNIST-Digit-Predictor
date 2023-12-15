@@ -8,6 +8,7 @@ import org.nd4j.common.config.ND4JSystemProperties;
 import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 @Slf4j
 public class App extends Application {
@@ -35,6 +36,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        window.initStyle(StageStyle.UNDECORATED);
         window.initialize();
         window.setScene(STYLESHEET.LOADING_SCREEN);
         window.show();
@@ -52,5 +54,23 @@ public class App extends Application {
             return false;
         }
     }
+
+    public static void maximize() {
+        if(window.isFullScreen()) {
+    		window.setFullScreen(false);
+    	}else {
+        	window.setFullScreenExitHint("");
+        	window.setFullScreen(true);
+    	}
+    }
+
+    public static void minimize() {
+        window.setIconified(true);
+    }
+
+    public static void close() {
+        window.close();
+    }
+
 
 }

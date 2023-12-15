@@ -4,11 +4,11 @@ import static emnist_number_predictor.util.Const.*;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URISyntaxException;
 import java.net.URL;
-
 import emnist_number_predictor.app.App;
 import emnist_number_predictor.service.LoadingScreen;
 import emnist_number_predictor.service.LoadingService;
 import emnist_number_predictor.util.Draggable;
+import emnist_number_predictor.util.Resizeable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
@@ -52,19 +52,15 @@ public class Window extends Stage {
     }
 
     public void initialize() {
+        this.setScene(scene);
         this.setMinWidth(INIT_WINDOW_WIDTH);
         this.setMinHeight(INIT_WINDOW_HEIGHT);
-
-        root.prefHeightProperty().bind(Window.width);
-        root.prefWidthProperty().bind(Window.height);
 
         // this.initStyle(StageStyle.UNDECORATED);
         this.setTitle("EMNIST Number Predictor");
 
         width.bind(root.widthProperty().asObject());
         height.bind(root.heightProperty().asObject());
-
-        this.setScene(scene);
     }
 
     public void setScene(STYLESHEET STYLESHEET) {
@@ -72,9 +68,19 @@ public class Window extends Stage {
 
         switch (STYLESHEET) {
             case APPLICATION -> {
+                Resizeable.addResizeListener(App.window, root);
                 BorderPane.setMargin(App.controller.inputGrid, new Insets(20));
+                
+                WindowHeader windowHeader = new WindowHeader();
+                Draggable.addDraggableListener(App.window, windowHeader);
+                root.setTop(windowHeader);
+
+                // VBox container = new VBox(App.controller.inputGrid, App.controller.predictionGrid);
+                // root.setCenter(container);
+
                 root.setCenter(App.controller.inputGrid);
                 root.setBottom(App.controller.predictionGrid);
+                //root.setBottom(new WindowFooter());
             }
             case LOADING_SCREEN -> {
                 new Thread(LoadingService.initializeModel()).start();
@@ -88,5 +94,4 @@ public class Window extends Stage {
             }
         }
     }
-
 }
