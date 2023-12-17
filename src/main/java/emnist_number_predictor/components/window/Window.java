@@ -11,7 +11,6 @@ import emnist_number_predictor.util.Draggable;
 import emnist_number_predictor.util.Resizeable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -68,19 +67,14 @@ public class Window extends Stage {
 
         switch (STYLESHEET) {
             case APPLICATION -> {
-                Resizeable.addResizeListener(App.window, root);
-                BorderPane.setMargin(App.controller.inputGrid, new Insets(20));
-                
-                WindowHeader windowHeader = new WindowHeader();
-                Draggable.addDraggableListener(App.window, windowHeader);
-                root.setTop(windowHeader);
+                Draggable.addDraggableListener(App.window, root);
 
-                // VBox container = new VBox(App.controller.inputGrid, App.controller.predictionGrid);
-                // root.setCenter(container);
-
+                root.setTop(new WindowHeader());
                 root.setCenter(App.controller.inputGrid);
                 root.setBottom(App.controller.predictionGrid);
-                //root.setBottom(new WindowFooter());
+
+                Resizeable.addResizeableListener(App.window, root);
+
             }
             case LOADING_SCREEN -> {
                 new Thread(LoadingService.initializeModel()).start();

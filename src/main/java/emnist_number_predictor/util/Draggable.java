@@ -1,5 +1,6 @@
 package emnist_number_predictor.util;
 
+import emnist_number_predictor.components.input.InputCell;
 import emnist_number_predictor.components.window.Window;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -12,6 +13,7 @@ public class Draggable {
     	DraggableListener resizeListener = new DraggableListener(window);
 		node.addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
 		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, resizeListener);
+		node.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, resizeListener);
     }
 
     private static class DraggableListener implements EventHandler<MouseEvent> {
@@ -24,11 +26,15 @@ public class Draggable {
     	
     	@Override
     	public void handle(MouseEvent mouseEvent) {
+			if(mouseEvent.isSecondaryButtonDown()) return;
             EventType<? extends MouseEvent> mouseEventType = mouseEvent.getEventType();
-            if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType) == true) {
+
+			boolean canDrag = !(mouseEvent.getTarget() instanceof InputCell);
+			
+            if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType) && canDrag) {
             	x = mouseEvent.getSceneX();
                 y = mouseEvent.getSceneY();
-    		} else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) == true) {
+    		} else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) && canDrag) {
     			window.setX(mouseEvent.getScreenX() - x);
             	window.setY(mouseEvent.getScreenY() - y);
     		}

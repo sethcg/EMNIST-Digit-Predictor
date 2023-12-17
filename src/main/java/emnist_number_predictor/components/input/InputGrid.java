@@ -3,6 +3,8 @@ import static emnist_number_predictor.util.Const.*;
 
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.util.Listener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
 public final class InputGrid extends GridPane {
@@ -10,6 +12,9 @@ public final class InputGrid extends GridPane {
     private InputCell[] inputCells = new InputCell[GRID_SIZE * GRID_SIZE];
 
     public InputGrid() {
+        this.setAlignment(Pos.CENTER);
+        this.setPadding(new Insets(20));
+
         // Adjust grid size, when the Appliction window size changes.
 		Window.width.addListener(new Listener<Number>(() -> { setSize(); }));
 		Window.height.addListener(new Listener<Number>(() -> { setSize(); }));
