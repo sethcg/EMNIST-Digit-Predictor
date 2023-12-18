@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 
 public class WindowButton extends Button {
 
+    private static final double WINDOW_BUTTON_WIDTH = 16;
+    private static final double WINDOW_BUTTON_HEIGHT = 20;
     private static final String WINDOW_BUTTON_DEFAULT_STYLE = "window-button-default";
 
     // Enum ButtonHandle
@@ -28,8 +30,8 @@ public class WindowButton extends Button {
 		this.setOnAction(enumValue.handleButton);
         this.setAlignment(Pos.CENTER);
 
-        this.setPrefSize(16, 20);
-        this.setMaxSize(16, 20);
+        this.setPrefSize(WINDOW_BUTTON_WIDTH, WINDOW_BUTTON_HEIGHT);
+        this.setMaxSize(WINDOW_BUTTON_WIDTH, WINDOW_BUTTON_HEIGHT);
     }
 
 }

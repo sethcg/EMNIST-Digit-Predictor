@@ -68,13 +68,11 @@ public class Window extends Stage {
         switch (STYLESHEET) {
             case APPLICATION -> {
                 Draggable.addDraggableListener(App.window, root);
+                Resizeable.addResizeableListener(App.window, root);
 
                 root.setTop(new WindowHeader());
                 root.setCenter(App.controller.inputGrid);
                 root.setBottom(App.controller.predictionGrid);
-
-                Resizeable.addResizeableListener(App.window, root);
-
             }
             case LOADING_SCREEN -> {
                 new Thread(LoadingService.initializeModel()).start();

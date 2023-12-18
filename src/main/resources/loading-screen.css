@@ -1,21 +1,17 @@
-/* Root Values */
 .root {
-	-fx-window-color: #454545;
+	-fx-main: #555555;
 	-fx-text: #FFFFFF;
 	
   	-fx-font-family: monospace;
-	-fx-background-color: -fx-window-color;
+	-fx-background-color: -fx-main;
 }
 
-/* Label CSS */
 .label{
     -fx-text-fill: -fx-text;
 	-fx-font-weight: bold;
 	-fx-font-size: 14px;
 }
 
-
-/* Percentage ProgressBar CSS */
 .progress-bar {
 	-fx-background-color: #141414;
 	-fx-background-radius: 3;

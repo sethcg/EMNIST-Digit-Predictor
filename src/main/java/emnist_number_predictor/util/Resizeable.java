@@ -32,10 +32,10 @@ public class Resizeable {
 
         // Enum that determines the direction in which to adjust the width and height.
         private static enum CHANGE_X { LEFT, RIGHT, NONE; }
-        private static enum CHANGE_Y { UP, DOWN, NONE; }
+        private static enum CHANGE_Y { TOP, BOTTOM, NONE; }
 
-        private CHANGE_X changeX = CHANGE_X.NONE;
-        private CHANGE_Y changeY = CHANGE_Y.NONE;
+        private static CHANGE_X changeX = CHANGE_X.NONE;
+        private static CHANGE_Y changeY = CHANGE_Y.NONE;
 
         // Values that represent the starting screen (x, y) for the mouse event.
         double startMouseX, startMouseY;
@@ -65,54 +65,35 @@ public class Resizeable {
             final double mouseScreenX = mouseEvent.getScreenX();
             final double mouseScreenY = mouseEvent.getScreenY();
 
-
             if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType)) {
-                if (mouseX < PULL_EDGE_DEPTH && mouseY < PULL_EDGE_DEPTH) {
+                changeX = CHANGE_X.NONE;
+                changeY = CHANGE_Y.NONE;
 
-                    setXYChange(CHANGE_X.LEFT, CHANGE_Y.UP);
-
-                } else if (mouseX < PULL_EDGE_DEPTH && mouseY > windowHeight - PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.LEFT, CHANGE_Y.DOWN);
-
-                } else if (mouseX > windowWidth - PULL_EDGE_DEPTH && mouseY < PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.RIGHT, CHANGE_Y.UP);
-
-                } else if (mouseX > windowWidth - PULL_EDGE_DEPTH && mouseY > windowHeight - PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.RIGHT, CHANGE_Y.DOWN);
-
-                } else if (mouseX < PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.LEFT, CHANGE_Y.NONE);
-
-                } else if (mouseX > windowWidth - PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.RIGHT, CHANGE_Y.NONE);
-
-                } else if (mouseY < PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.NONE, CHANGE_Y.UP);
-
-                } else if (mouseY > windowHeight - PULL_EDGE_DEPTH) {
-
-                    setXYChange(CHANGE_X.NONE, CHANGE_Y.DOWN);
-
-                } else {
-                    // No change.
-                    setXYChange(CHANGE_X.NONE, CHANGE_Y.NONE);
+                // Set the direction for the change X axis.
+                if(mouseX < PULL_EDGE_DEPTH) {
+                    changeX = CHANGE_X.LEFT;
+                } else if(mouseX > windowWidth - PULL_EDGE_DEPTH) {
+                    changeX = CHANGE_X.RIGHT;
                 }
 
+                // Set the direction for the change on the Y axis.
+                if(mouseY < PULL_EDGE_DEPTH) {
+                    changeY = CHANGE_Y.TOP;
+                } else if(mouseY > windowHeight - PULL_EDGE_DEPTH) {
+                    changeY = CHANGE_Y.BOTTOM;
+                }
+
+                // Set initial mouse screen point.
                 startMouseX = mouseScreenX;
                 startMouseY = mouseScreenY;
 
+                // Set the initial values of the top-left and bottom-right corners of the window.
                 startX = window.getX(); 
                 startY = window.getY();
                 startX2 = window.getX() + windowWidth;
                 startY2= window.getY() + windowHeight;
 
-            } else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) && !(changeX == CHANGE_X.NONE && changeY == CHANGE_Y.NONE)) {
+            } else if (hasChanged() && MouseEvent.MOUSE_DRAGGED.equals(mouseEventType)) {
                 double dragX = mouseScreenX - startMouseX;
                 double dragY = mouseScreenY - startMouseY;
                 double min, max;
@@ -137,12 +118,12 @@ public class Resizeable {
                         break;
                 }
                 switch (changeY) {
-                    case UP :
+                    case TOP :
                         min = Math.max(y2 - maxHeight, 0);
                         max = y2 - minHeight;
                         y = clamp(y + dragY, min, max);
                         break;
-                    case DOWN :
+                    case BOTTOM :
                         min = y + minHeight;
                         max = Math.min(y + maxHeight, SCREEN_BOUNDS.getHeight());
                         y2 = clamp(y2 + dragY, min, max);
@@ -154,23 +135,21 @@ public class Resizeable {
                 resizeWindow(x, y, x2, y2);
 
             } else if (MouseEvent.MOUSE_RELEASED.equals(mouseEventType)) {
-                setXYChange(CHANGE_X.NONE, CHANGE_Y.NONE);
+                // Reset the resizing upon mouse release.
+                changeX = CHANGE_X.NONE;
+                changeY = CHANGE_Y.NONE;
             }
         }
 
-        private double clamp(double newValue, double minValue, double maxValue) {
-            if (newValue < minValue) {
-                return minValue;
-            }
-            if (newValue > maxValue) {
-                return maxValue;
-            }
-            return newValue;
+        private static double clamp(double newValue, double minValue, double maxValue) {
+            // When the newValue is less than the min, return the min.
+            // When the newValue is greather than the max, return the max.
+            // Otherwise, return the newValue.
+            return Math.min(Math.max(newValue, minValue), maxValue);
         }
 
-        private void setXYChange(CHANGE_X X, CHANGE_Y Y) {
-            changeX = X;
-            changeY = Y;
+        private boolean hasChanged() {
+            return changeX != CHANGE_X.NONE || changeY != CHANGE_Y.NONE;
         }
 
         private void resizeWindow(double x1, double y1, double x2, double y2) {

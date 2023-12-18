@@ -72,5 +72,4 @@ public class App extends Application {
         window.close();
     }
 
-
 }

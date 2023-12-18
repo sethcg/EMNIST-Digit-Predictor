@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class PredictionGrid extends GridPane {
 
 	private static final String PREDICTION_GRID_DEFAULT_STYLE = "prediction-grid-default";
-	private static final Insets GRID_INSET = new Insets(5,0,5,0);
+	private static final Insets GRID_INSET = new Insets(10,0,10,0);
 
 	private ArrayList<PredictionRow> predictions = new ArrayList<PredictionRow>();
 

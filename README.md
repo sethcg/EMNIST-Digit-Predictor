@@ -30,7 +30,7 @@ See: https://www.nist.gov/itl/products-and-services/emnist-dataset
 - ~~Create Nueral Network Model on Launch~~
 - ~~Improve Splash Screen~~
 - Implement Unit Testing
-- Improve Overall Style and Layout
+- ~~Improve Overall Style and Layout~~
 - Containerize the Application (Docker)
 - ~~Refactor~~, Refactor, Refactor...
 

@@ -26,12 +26,12 @@ public class WindowHeader extends GridPane {
 
         // this.addColumn(0, new WindowButton("settings-window-button", WINDOW_HEADER_HEIGHT, FUNCTION.SETTINGS);
 
-        HBox container = new HBox(14,
+        HBox container = new HBox(16,
             new WindowButton("minimize-window-button", WINDOW_HEADER_HEIGHT, FUNCTION.MINIMIZE),
             new WindowButton("maximize-window-button", WINDOW_HEADER_HEIGHT, FUNCTION.MAXIMIZE),
             new WindowButton("close-window-button", WINDOW_HEADER_HEIGHT, FUNCTION.CLOSE));
         container.setAlignment(Pos.CENTER_RIGHT);
-        container.setPadding(new Insets(0,5,0,0));
+        container.setPadding(new Insets(0, 8, 0, 0));
 
         this.addColumn(1, container);
     }

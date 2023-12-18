@@ -13,7 +13,6 @@ public class Draggable {
     	DraggableListener resizeListener = new DraggableListener(window);
 		node.addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
 		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, resizeListener);
-		node.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, resizeListener);
     }
 
     private static class DraggableListener implements EventHandler<MouseEvent> {
@@ -28,9 +27,7 @@ public class Draggable {
     	public void handle(MouseEvent mouseEvent) {
 			if(mouseEvent.isSecondaryButtonDown()) return;
             EventType<? extends MouseEvent> mouseEventType = mouseEvent.getEventType();
-
 			boolean canDrag = !(mouseEvent.getTarget() instanceof InputCell);
-			
             if (MouseEvent.MOUSE_PRESSED.equals(mouseEventType) && canDrag) {
             	x = mouseEvent.getSceneX();
                 y = mouseEvent.getSceneY();

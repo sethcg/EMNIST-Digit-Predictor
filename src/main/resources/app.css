@@ -1,35 +1,31 @@
-/* Root Values */
 .root {
-	-fx-window-color: #454545;
 
-	-fx-outline: #090909;
-	-fx-text: #FFFFFF;
-	-fx-divider: #141414;
+	-fx-main: #555555;
+	-fx-secondary: #333333;
+	-fx-border: #111111;
 
 	-fx-cell-white: #efefef;
 	-fx-cell-black: #171717;
 
-	-fx-accent: 			#275747;
-	-fx-accent-offset: 		#276447;
+	-fx-accent: #298969;
+	-fx-accent-offset: #18b37f;
 
-  	/* Default Values */
+	-fx-text: #FFFFFF;
+
   	-fx-font-family: monospace;
-	-fx-background-color: -fx-window-color;
+	-fx-background-color: -fx-main;
 }
 
-/* PredictionGrid CSS */
 .prediction-grid-default {
-	-fx-background-color: -fx-divider;
+	-fx-background-color: -fx-secondary;
 }
 
-/* Label CSS */
 .label-default{
     -fx-text-fill: -fx-text;
 	-fx-font-weight: bold;
 	-fx-font-size: 20px;
 }
 
-/* Percentage ProgressBar CSS */
 .progress-bar > .bar {
 	-fx-background-color: derive(green,0.9);
 	-fx-background-radius: 3;
@@ -38,7 +34,6 @@
     -fx-padding: 8, 0, 8, 0;
 }
 
-/* Input Cell CSS */
 .input-cell-default {
     -fx-background-color: -fx-cell-white;
     -fx-border-width: 1px;
@@ -52,7 +47,6 @@
     -fx-background-color: -fx-cell-white;
 }
 
-/* Button CSS */
 .control-button-default {
 	-fx-text-fill: -fx-text;
 
@@ -71,9 +65,8 @@
 	-fx-effect: dropshadow(gaussian, -fx-accent-offset, 8, 0.5, 0.0, 0.0);
 }
 
-/* Window Header/Buttons CSS */
 .window-header-default {
-	-fx-background-color: -fx-outline;
+	-fx-background-color: -fx-border;
 }
 
 .window-button-default {
@@ -84,8 +77,8 @@
 .window-button-default:hover {
 	-fx-background-color: derive(-fx-accent-offset, 15%);
 	-fx-effect: dropshadow(gaussian, derive(-fx-accent-offset, 15%), 8, 0.3, 0.0, 0.0);
-	-fx-scale-y: 1.35;
-    -fx-scale-x: 1.35;
+	-fx-scale-y: 1.25;
+    -fx-scale-x: 1.25;
     
     -fx-opacity: 75%;
 }
@@ -103,20 +96,4 @@
 #minimize-window-button {
 	-fx-shape: "M 0 18 L 40 18 L 40 22 L 0 22 Z";
 	-fx-scale-y: 0.3;
-}
-
-/* window Footer */
-.resize-footer-default {
-	-fx-background-color: #efefef;
-	/*-fx-background-color: derive(-fx-accent, 15%);*/
-	-fx-effect: dropshadow(gaussian, derive(-fx-accent, 15%), 5, 0.2, 0.0, 0.0);
-}
-
-.resize-footer-default:hover {
-	-fx-background-color: derive(-fx-accent-offset, 15%);
-	-fx-effect: dropshadow(gaussian, derive(-fx-accent-offset, 15%), 8, 0.3, 0.0, 0.0);
-	-fx-scale-y: 1.35;
-    -fx-scale-x: 1.35;
-    
-    -fx-opacity: 75%;
 }
