@@ -1,5 +1,4 @@
 package emnist_number_predictor.service;
-import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
@@ -19,25 +18,16 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.learning.config.Adam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
+import emnist_number_predictor.app.App;
 import emnist_number_predictor.service.ModelConfigurationProgress.PROGRESS;
 
 @Slf4j
 public class ModelService {
 
-	private static File file = new File(MODEL_PATH);
+	private static File file = new File(App.MODEL_PATH);
 	private static MultiLayerNetwork network;
 
-	private static final long RNG_SEED = 123;
-	private static final int EMNIST_IMAGE_WIDTH = 28;
-	private static final int EMNIST_IMAGE_HEIGHT = 28;
-	private static final int LAYER_ONE_INPUT = EMNIST_IMAGE_WIDTH * EMNIST_IMAGE_HEIGHT;
-	private static final int LAYER_ONE_OUTPUT = 1000;
-
-	// Final output of EMNIST labels digits [0-9]
-	private static final int EMNIST_DIGIT_OUTPUT = 10;
-
-	private static final int BATCH_SIZE = 128;
-	private static final EMnistSet EMNIST_SET = EMnistSet.DIGITS;
+	private static final int EPOCH_NUM = 11;
 	private static EmnistDataSetIterator trainingIterator, testingIterator;
 
 	public static INDArray getPrediction(INDArray predictionInput) {
@@ -45,13 +35,13 @@ public class ModelService {
 	}
 
 	public static void initializeModel(boolean hasModel) {
-		ModelConfigurationProgress.initialize();
+		ModelConfigurationProgress.initialize(EPOCH_NUM);
 		if(hasModel) {
 			try {
 				loadModel();
 			} catch (IOException exception) {
 				// On loading error, build new model.
-				ModelConfigurationProgress.initialize();
+				ModelConfigurationProgress.initialize(EPOCH_NUM);
 				getData();
 				MultiLayerConfiguration configuration = getConfiguration();
 				MultiLayerNetwork newNetwork = new MultiLayerNetwork(configuration);
@@ -71,6 +61,15 @@ public class ModelService {
 	}
 
 	private static MultiLayerConfiguration getConfiguration() {
+		final long RNG_SEED = 123;
+		final int EMNIST_IMAGE_WIDTH = 28;
+		final int EMNIST_IMAGE_HEIGHT = 28;
+		final int LAYER_ONE_INPUT = EMNIST_IMAGE_WIDTH * EMNIST_IMAGE_HEIGHT;
+		final int LAYER_ONE_OUTPUT = 1000;
+
+		// Final output of EMNIST labels digits [0-9]
+		final int EMNIST_DIGIT_OUTPUT = 10;
+
 		ModelConfigurationProgress.setConfigurationText("Configuring Neural Network");
 		MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
 				.seed(RNG_SEED)
@@ -95,6 +94,9 @@ public class ModelService {
 	}
 
 	private static void getData() {
+		final int BATCH_SIZE = 128;
+		final EMnistSet EMNIST_SET = EMnistSet.DIGITS;
+
 		ModelConfigurationProgress.setConfigurationText("Fetching EMNIST Datasets");
 		try {
 			trainingIterator = new EmnistDataSetIterator(EMNIST_SET, BATCH_SIZE, true);
@@ -111,7 +113,7 @@ public class ModelService {
 			ModelSerializer.writeModel(network, file, false);
 			ModelConfigurationProgress.setConfigurationProgress(PROGRESS.CONFIGURATION);
 		} catch (IOException exception) {
-			log.error("Error Saving %s To Path: %s", MODEL_FILE_NAME, MODEL_PATH);
+			log.error("Error Saving %s To Path: %s", App.MODEL_FILE_NAME, App.MODEL_PATH);
 		}
 	}
 
@@ -121,7 +123,7 @@ public class ModelService {
 			network = ModelSerializer.restoreMultiLayerNetwork(file);
 			ModelConfigurationProgress.setConfigurationProgress(PROGRESS.CONFIGURATION);
 		} catch (IOException exception) {
-			log.error("Error Loading %s From Path: %s", MODEL_FILE_NAME, MODEL_PATH);
+			log.error("Error Loading %s From Path: %s", App.MODEL_FILE_NAME, App.MODEL_PATH);
 			throw exception;
 		}
 	}
@@ -136,6 +138,9 @@ public class ModelService {
 	}
 
 	private static void evaluateModel(MultiLayerNetwork network) {
+		final String EVALUATION_FILE_NAME = "evaluation.txt";
+		final String EVALUATION_PATH = String.format("%s\\%s", App.DIRECTORY_PATH, EVALUATION_FILE_NAME);
+		
 		ModelConfigurationProgress.setConfigurationText("Evaluating basic performance");
 		// Evaluate basic performance
 		String basicEvaluation = network.evaluate(testingIterator).stats();

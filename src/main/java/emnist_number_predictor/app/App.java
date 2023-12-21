@@ -1,5 +1,4 @@
 package emnist_number_predictor.app;
-import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
 import emnist_number_predictor.components.window.Window;
@@ -12,6 +11,18 @@ import javafx.stage.StageStyle;
 
 @Slf4j
 public class App extends Application {
+
+    // Set this to true to force the Neural Network Model to be rebuilt on launch,
+    // This can take a long time depending on the EPOCH_NUM.
+    private static final boolean ENABLE_DEBUG_REBUILD_MODEL_OPTION = false;
+
+    // External Resource Directory
+    public static final String DIRECTORY_NAME = ".emnist-number-predictor";
+    public static final String DIRECTORY_PATH = String.format("%s\\%s", System.getProperty("user.home"), DIRECTORY_NAME);
+
+    // Model File
+    public static final String MODEL_FILE_NAME = "Model.zip";
+    public static final String MODEL_PATH = String.format("%s\\%s", DIRECTORY_PATH, MODEL_FILE_NAME);
 
     public static boolean hasModel = false;
     public static Window window = new Window();

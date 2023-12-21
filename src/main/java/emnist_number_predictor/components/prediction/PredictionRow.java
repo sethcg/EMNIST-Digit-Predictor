@@ -3,34 +3,21 @@ package emnist_number_predictor.components.prediction;
 import emnist_number_predictor.components.util.TextLabel;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.HBox;
 
-public class PredictionRow extends HBox {
+public class PredictionRow {
 
-    private TextLabel digitLabel = new TextLabel("", Pos.CENTER_LEFT, 50);
-    private TextLabel percentLabel = new TextLabel("", Pos.CENTER_LEFT, 100);
-    private ProgressBar progressBar = new ProgressBar(0.0);
+    public TextLabel digitLabel = new TextLabel("", Pos.CENTER_LEFT, 50);
+    public TextLabel percentLabel = new TextLabel(String.format("%.2f%%", 0.0), Pos.CENTER_LEFT, 100);
+    public ProgressBar progressBar = new ProgressBar(0.0);
 
     public PredictionRow(int digit) {
-        this.setAlignment(Pos.CENTER);
-        this.initialize(digit);
-    }
-
-    private void initialize(int digit) {
-        double percent = 0.0;
-        String formattedPercent = String.format("%.2f%%", 0.0);
-
-        this.digitLabel.setText(Integer.toString(digit));
-        this.percentLabel.setText(formattedPercent);
-        this.progressBar.setProgress(percent);
-
-        this.getChildren().addAll(digitLabel, percentLabel, progressBar);
+        digitLabel.setText(Integer.toString(digit));
     }
 
     public void setPercent(double normalizedPercent) { 
         String formattedPercent = String.format("%.2f%%", normalizedPercent * 100);
-        this.percentLabel.setText(formattedPercent);
-        this.progressBar.setProgress(normalizedPercent);
+        percentLabel.setText(formattedPercent);
+        progressBar.setProgress(normalizedPercent);
 	}
 
 }

@@ -16,11 +16,11 @@
 	-fx-background-color: -fx-main;
 }
 
-.prediction-grid-default {
+.prediction-grid {
 	-fx-background-color: -fx-secondary;
 }
 
-.label-default{
+.label {
     -fx-text-fill: -fx-text;
 	-fx-font-weight: bold;
 	-fx-font-size: 20px;
@@ -34,12 +34,12 @@
     -fx-padding: 8, 0, 8, 0;
 }
 
-.input-cell-default {
+.input-cell {
     -fx-background-color: -fx-cell-white;
     -fx-border-width: 1px;
 }
 
-.input-cell-default:hover {
+.input-cell:hover {
     -fx-background-color:derive(green,0.9);
 }
 
@@ -47,7 +47,7 @@
     -fx-background-color: -fx-cell-white;
 }
 
-.control-button-default {
+.control-button {
 	-fx-text-fill: -fx-text;
 
 	-fx-padding: 5 10 5 10;
@@ -60,21 +60,25 @@
 	-fx-background-radius: 4;
 }
 
-.control-button-default:hover {
+.control-button:hover {
 	-fx-background-color: -fx-accent-offset;
 	-fx-effect: dropshadow(gaussian, -fx-accent-offset, 8, 0.5, 0.0, 0.0);
 }
 
-.window-header-default {
+.window-header {
 	-fx-background-color: -fx-border;
 }
 
-.window-button-default {
+#window-header-text {
+	-fx-font-size: 14px;
+}
+
+.window-button {
 	-fx-background-color: derive(-fx-accent, 15%);
 	-fx-effect: dropshadow(gaussian, derive(-fx-accent, 15%), 5, 0.2, 0.0, 0.0);
 }
 
-.window-button-default:hover {
+.window-button:hover {
 	-fx-background-color: derive(-fx-accent-offset, 15%);
 	-fx-effect: dropshadow(gaussian, derive(-fx-accent-offset, 15%), 8, 0.3, 0.0, 0.0);
 	-fx-scale-y: 1.25;

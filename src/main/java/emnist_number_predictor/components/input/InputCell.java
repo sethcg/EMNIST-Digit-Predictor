@@ -1,7 +1,6 @@
 package emnist_number_predictor.components.input;
-import static emnist_number_predictor.util.Const.*;
 
-import emnist_number_predictor.app.App;
+import emnist_number_predictor.app.AppController;
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.util.HandleMouse;
 import emnist_number_predictor.util.Listener;
@@ -12,17 +11,20 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class InputCell extends Region {
 
-	public int row, column;
-	public boolean selected;
-
-	public float colorValue = BLACK_COLOR_VALUE;
-	private static final String INPUT_CELL_DEFAULT_STYLE = "input-cell-default";
+    private static final float WHITE_COLOR_VALUE = 255;
+	private static final float BLACK_COLOR_VALUE = 0;
+    private static final Double INIT_CELL_WIDTH = Window.INIT_WIDTH / InputGrid.GRID_SIZE;
+	private static final Double INIT_CELL_HEIGHT = Window.INIT_HEIGHT / InputGrid.GRID_SIZE;
 
 	private ObjectProperty<Double> cellWidth = new SimpleObjectProperty<Double>(this, "cell-width", INIT_CELL_WIDTH);
 	private ObjectProperty<Double> cellHeight = new SimpleObjectProperty<Double>(this, "cell-height", INIT_CELL_HEIGHT);
 
+	public int row, column;
+	public boolean selected;
+	public float colorValue = BLACK_COLOR_VALUE;
+
     public InputCell(int row, int column) {
-		this.getStyleClass().add(INPUT_CELL_DEFAULT_STYLE);
+		this.getStyleClass().add("input-cell");
 		this.row = row;
 		this.column = column;
 
@@ -31,8 +33,8 @@ public class InputCell extends Region {
 		this.prefHeightProperty().bind(cellHeight);
 
 		// Adjust cell size, when the Appliction window size changes.
-		Window.width.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.width.get() / (double) GRID_SIZE); }));
-		Window.height.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.height.get() / (double) GRID_SIZE); }));
+		Window.width.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.width.get() / (double) InputGrid.GRID_SIZE); }));
+		Window.height.addListener(new Listener<Number>(() -> { cellWidth.setValue(Window.height.get() / (double) InputGrid.GRID_SIZE); }));
 
 		// Handle MouseClick
 		this.setOnMouseClicked(new HandleMouse<MouseEvent>((event) -> { updateColor(event); }));
@@ -60,11 +62,11 @@ public class InputCell extends Region {
 		if(event.isPrimaryButtonDown() && !inputCell.selected) { 
 			// Right MouseButton select
 			this.select();
-			App.controller.updatePrediction(inputCell);
+			AppController.updatePrediction(inputCell);
     	} else if(event.isSecondaryButtonDown() && inputCell.selected) { 
 			// Right MouseButton deselect
 			this.deselect();
-			App.controller.updatePrediction(inputCell);
+			AppController.updatePrediction(inputCell);
     	}
     }
 

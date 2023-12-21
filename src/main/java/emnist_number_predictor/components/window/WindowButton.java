@@ -9,9 +9,7 @@ public class WindowButton extends Button {
 
     private static final double WINDOW_BUTTON_WIDTH = 16;
     private static final double WINDOW_BUTTON_HEIGHT = 20;
-    private static final String WINDOW_BUTTON_DEFAULT_STYLE = "window-button-default";
 
-    // Enum ButtonHandle
     public static enum FUNCTION {
         MINIMIZE(() -> { App.minimize(); }),
         MAXIMIZE(() -> { App.maximize(); }),
@@ -26,7 +24,7 @@ public class WindowButton extends Button {
 
     public WindowButton(String id, double size, FUNCTION enumValue) {
         this.setId(id);
-        this.getStyleClass().add(WINDOW_BUTTON_DEFAULT_STYLE);
+        this.getStyleClass().add("window-button");
 		this.setOnAction(enumValue.handleButton);
         this.setAlignment(Pos.CENTER);
 

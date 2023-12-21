@@ -1,5 +1,4 @@
 package emnist_number_predictor.service;
-import static emnist_number_predictor.util.Const.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +12,7 @@ public class ModelConfigurationProgress {
     private static final double TRAINING_WEIGHT_PERCENTAGE = 0.7;
     private static final double EVALUATION_WEIGHT_PERCENTAGE = 0.1;
 
+    private static double EPOCH_NUM;
     private static final double CONFIGURATION_TOTAL = 4;
     private static final double EVALUATION_TOTAL = 3;
 
@@ -42,7 +42,8 @@ public class ModelConfigurationProgress {
 
     };
 
-    public static void initialize() {
+    public static void initialize(int epochNum) {
+        EPOCH_NUM = epochNum;
         LoadingService.setConfigurationText(INIT_MODEL_CONFIGURATION_PROGRESS_TEXT);
         LoadingService.setConfigurationProgress(INIT_MODEL_CONFIGURATION_PROGRESS_PERCENT);
     }

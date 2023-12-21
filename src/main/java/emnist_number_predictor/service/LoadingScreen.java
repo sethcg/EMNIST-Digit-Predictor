@@ -1,8 +1,8 @@
 package emnist_number_predictor.service;
-import static emnist_number_predictor.util.Const.*;
 
 import emnist_number_predictor.components.util.HorizontalRow;
 import emnist_number_predictor.components.util.Spacer;
+import emnist_number_predictor.components.window.Window;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
@@ -45,7 +45,7 @@ public class LoadingScreen extends VBox{
 
             GridPane progressContainer = new GridPane();
             progressContainer.setAlignment(Pos.CENTER);
-            progressContainer.getColumnConstraints().addAll(new ColumnConstraints(INIT_WINDOW_WIDTH * 0.8));
+            progressContainer.getColumnConstraints().addAll(new ColumnConstraints(Window.INIT_WIDTH * 0.8));
             progressContainer.addRow(0, configurationProgressBar);
 
             // Animate Ellipsis

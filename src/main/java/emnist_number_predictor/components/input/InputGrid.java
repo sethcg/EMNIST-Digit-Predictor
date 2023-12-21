@@ -1,5 +1,4 @@
 package emnist_number_predictor.components.input;
-import static emnist_number_predictor.util.Const.*;
 
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.util.Listener;
@@ -9,6 +8,7 @@ import javafx.scene.layout.GridPane;
 
 public final class InputGrid extends GridPane {
 
+    public final static int GRID_SIZE = 14;
     private InputCell[] inputCells = new InputCell[GRID_SIZE * GRID_SIZE];
 
     public InputGrid() {
