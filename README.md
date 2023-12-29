@@ -10,29 +10,29 @@ See: https://www.nist.gov/itl/products-and-services/emnist-dataset
 ----
 
 ## Features
-- Java, JavaFX, Maven
+- Java, JavaFX, JUnit, Maven
 - Neural Network Model using DL4J
 - Custom, Responsive GUI
 - Reset and Save Buttons
 
 ----
 ## Demo:
-
-<img src="https://user-images.githubusercontent.com/8952745/121995990-d8607580-cd75-11eb-873d-04a22941da04.gif" width="500" height="500">
+<img src="https://github.com/sethcg/EMNIST-Digit-Predictor/assets/8952745/46f44b3b-2358-4842-9d15-2b94862c4406" width="500" height="500">
 
 ----
 ## Examples:
-<img src="https://user-images.githubusercontent.com/8952745/121995893-b23ad580-cd75-11eb-82c2-f4d6cf5011b4.png" width="200" height="250"> <img src="https://user-images.githubusercontent.com/8952745/121995897-b2d36c00-cd75-11eb-97bc-8ca0ec737f73.png" width="200" height="250"> <img src="https://user-images.githubusercontent.com/8952745/121995906-b5ce5c80-cd75-11eb-9d39-aa7e69ae5c7d.png" width="200" height="250">
+<img src="https://github.com/sethcg/EMNIST-Digit-Predictor/assets/8952745/7fbe373f-a961-4ccb-81de-3c19c850899b" width="200" height="250"> <img src="https://github.com/sethcg/EMNIST-Digit-Predictor/assets/8952745/2f8fd7d7-4912-4c01-bca0-96d5ea940eb9" width="200" height="250"> <img src="https://github.com/sethcg/EMNIST-Digit-Predictor/assets/8952745/52568552-00d3-4923-99e3-758aff3347d6" width="200" height="250">
+
 ----
 ## To Do:
 - ~~Basic GUI and Functionality.~~
 - ~~Real-Time Prediction~~
 - ~~Create Nueral Network Model on Launch~~
 - ~~Improve Splash Screen~~
-- Implement Unit Testing
+- ~~Implement Unit Testing~~
 - ~~Improve Overall Style and Layout~~
 - Containerize the Application (Docker)
-- ~~Refactor~~, Refactor, Refactor...
+- ~~Refactor~~, ~~Refactor~~, Refactor...
 
 ---
 > For the things we have to learn before we can do them, we learn by doing them.
