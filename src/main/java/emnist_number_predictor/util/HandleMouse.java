@@ -1,7 +1,7 @@
 package emnist_number_predictor.util;
 
-
 import java.util.function.Consumer;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 

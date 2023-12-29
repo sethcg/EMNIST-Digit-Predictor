@@ -1,5 +1,7 @@
 package emnist_number_predictor.components.prediction;
 
+import java.util.ArrayList;
+
 import emnist_number_predictor.components.controls.ControlBox;
 import emnist_number_predictor.components.util.HorizontalRow;
 import emnist_number_predictor.components.util.RowConstraint;
@@ -8,11 +10,10 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import java.util.ArrayList;
 
 public class PredictionGrid extends GridPane {
 
-	private ArrayList<PredictionRow> predictions = new ArrayList<PredictionRow>();
+	public ArrayList<PredictionRow> predictions = new ArrayList<PredictionRow>();
 
 	public PredictionGrid() {
 		this.getStyleClass().add("prediction-grid");

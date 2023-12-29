@@ -1,8 +1,8 @@
 package emnist_number_predictor.components.window;
 
-import javafx.geometry.Pos;
 import emnist_number_predictor.app.App;
 import emnist_number_predictor.util.HandleButton;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 
 public class WindowButton extends Button {

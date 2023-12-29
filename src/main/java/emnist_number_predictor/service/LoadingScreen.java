@@ -3,7 +3,6 @@ package emnist_number_predictor.service;
 import emnist_number_predictor.components.util.HorizontalRow;
 import emnist_number_predictor.components.util.Spacer;
 import emnist_number_predictor.components.window.Window;
-import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
@@ -14,6 +13,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class LoadingScreen extends VBox{
 

@@ -1,13 +1,15 @@
 package emnist_number_predictor.app;
 
-import lombok.extern.slf4j.Slf4j;
+import java.io.File;
+
+import org.nd4j.common.config.ND4JSystemProperties;
+
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.components.window.Window.STYLESHEET;
-import org.nd4j.common.config.ND4JSystemProperties;
-import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App extends Application {

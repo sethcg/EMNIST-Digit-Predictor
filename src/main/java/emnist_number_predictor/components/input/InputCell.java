@@ -4,10 +4,10 @@ import emnist_number_predictor.app.AppController;
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.util.HandleMouse;
 import emnist_number_predictor.util.Listener;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 
 public class InputCell extends Region {
 

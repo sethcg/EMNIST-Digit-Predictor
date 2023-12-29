@@ -3,10 +3,10 @@ package emnist_number_predictor.service;
 import emnist_number_predictor.app.App;
 import emnist_number_predictor.components.window.Window;
 import emnist_number_predictor.components.window.Window.STYLESHEET;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.util.Duration;
@@ -56,24 +56,6 @@ public class LoadingService {
             @Override
             public void run() {
                 configurationProgress.set(percentComplete);
-            }
-        });
-    }
-
-    public static void showConfigurationProgress(double percentComplete) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Window.loadingScreen.configurationProgressBar.setVisible(true);
-            }
-        });
-    }
-
-    public static void hideConfigurationProgress(double percentComplete) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Window.loadingScreen.configurationProgressBar.setVisible(false);
             }
         });
     }

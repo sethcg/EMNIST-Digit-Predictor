@@ -1,7 +1,5 @@
 package emnist_number_predictor.app;
 
-import emnist_number_predictor.components.window.Window;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import emnist_number_predictor.components.window.Window;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -66,4 +65,5 @@ public class AppTest {
             }
         });
     }
+
 }

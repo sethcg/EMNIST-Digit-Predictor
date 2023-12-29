@@ -1,19 +1,22 @@
 package emnist_number_predictor.app;
 
-import lombok.extern.slf4j.Slf4j;
-import emnist_number_predictor.components.input.InputCell;
-import emnist_number_predictor.components.input.InputGrid;
-import emnist_number_predictor.components.prediction.PredictionGrid;
-import emnist_number_predictor.service.ModelService;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
 import javax.imageio.ImageIO;
+
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 import org.nd4j.linalg.factory.Nd4j;
+
+import emnist_number_predictor.components.input.InputCell;
+import emnist_number_predictor.components.input.InputGrid;
+import emnist_number_predictor.components.prediction.PredictionGrid;
+import emnist_number_predictor.service.ModelService;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AppController {
@@ -28,7 +31,7 @@ public class AppController {
 	private static BufferedImage screenshot = new BufferedImage(UPSCALED_GRID_SIZE, UPSCALED_GRID_SIZE, BufferedImage.TYPE_INT_RGB);
 	private static float[] floatRGBArray = new float[UPSCALED_ARRAY_SIZE];
 
-	private static INDArray getPrediction() {
+	public static INDArray getPrediction() {
 		INDArray predictionInput = Nd4j.create(floatRGBArray, new int[]{1, 784});
 			
 		// Normalize the data from color values of [0-255] to values of [0-1]

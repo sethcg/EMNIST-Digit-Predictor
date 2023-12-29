@@ -1,8 +1,8 @@
 package emnist_number_predictor.components.window;
 
-import lombok.extern.slf4j.Slf4j;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import emnist_number_predictor.app.App;
 import emnist_number_predictor.app.AppController;
 import emnist_number_predictor.service.LoadingScreen;
@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Window extends Stage {
@@ -29,7 +30,7 @@ public class Window extends Stage {
     public static LoadingScreen loadingScreen = new LoadingScreen(App.hasModel);
 
     public static DoubleProperty width = new SimpleDoubleProperty(INIT_WIDTH, "window-width");
-    public static DoubleProperty height = new SimpleDoubleProperty(INIT_WIDTH, "window-width");
+    public static DoubleProperty height = new SimpleDoubleProperty(INIT_HEIGHT, "window-height");
 
     public static enum STYLESHEET {
         APPLICATION(APP_CSS_FILENAME), 

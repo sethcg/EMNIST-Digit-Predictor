@@ -1,9 +1,9 @@
 package emnist_number_predictor.service;
 
-import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import org.deeplearning4j.datasets.iterator.impl.EmnistDataSetIterator;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -20,6 +20,7 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import emnist_number_predictor.app.App;
 import emnist_number_predictor.service.ModelConfigurationProgress.PROGRESS;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ModelService {
